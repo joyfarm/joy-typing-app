@@ -6,53 +6,101 @@
   <title>타이핑 마스터 스튜디오 (Typing Master Studio)</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Google Fonts: Noto Sans KR -->
+  <!-- Pretendard Variable 웹폰트 (K-Modern 디자인 시스템 표준) & JetBrains Mono -->
+  <link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable.min.css" />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet">
   
   <script>
     tailwind.config = {
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Noto Sans KR', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-            mono: ['JetBrains Mono', 'monospace'],
+            sans: ['"Pretendard Variable"', 'Pretendard', '-apple-system', 'BlinkMacSystemFont', 'system-ui', 'Roboto', 'sans-serif'],
+            mono: ['"JetBrains Mono"', 'monospace'],
           },
           colors: {
-            brand: {
-              50: '#eef2ff',
-              100: '#e0e7ff',
-              200: '#c7d2fe',
-              300: '#a5b4fc',
-              400: '#818cf8',
-              500: '#6366f1',
-              600: '#4f46e5',
-              700: '#4338ca',
-              800: '#3730a3',
-              900: '#312e81',
+            rausch: {
+              DEFAULT: '#FF385C',
+              hover: '#E01542',
+              active: '#C40D36',
+              soft: '#FFF0F3',
+              disabled: '#FFA8B8',
+            },
+            ink: {
+              primary: '#191F28',
+              secondary: '#333D4B',
+              tertiary: '#6B7684',
+              quaternary: '#8B95A1',
+              disabled: '#B0B8C1',
+            },
+            surface: {
+              canvas: '#FFFFFF',
+              soft: '#F9FAFB',
+              hover: '#F2F4F6',
+              active: '#E5E8EB',
+              elevated: '#FFFFFF',
+            },
+            line: {
+              hairline: '#E5E8EB',
+              subtle: '#F2F4F6',
+              strong: '#D1D6DB',
+            },
+            accent: {
+              earth: '#4A4036',
+              sage: '#5A6B5C',
+              gold: '#FFB800',
             }
+          },
+          letterSpacing: {
+            tighter: '-0.03em',
+            tight: '-0.015em',
+            snug: '-0.01em',
+            normal: '0em',
+          },
+          borderRadius: {
+            card: '16px',
+            panel: '20px',
+            sheet: '24px',
+          },
+          boxShadow: {
+            'k-card': '0 10px 24px -4px rgba(25, 31, 40, 0.06), 0 2px 6px -1px rgba(25, 31, 40, 0.03)',
+            'k-floating': '0 16px 32px -4px rgba(25, 31, 40, 0.08), 0 0 0 1px rgba(229, 232, 235, 0.9)',
+            'k-popover': '0 12px 28px 0 rgba(0, 0, 0, 0.1), 0 2px 4px 0 rgba(0, 0, 0, 0.04)',
           }
         }
       }
     }
   </script>
+
   <style>
     * {
-      font-family: 'Noto Sans KR', sans-serif;
+      font-family: 'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, system-ui, sans-serif;
+      word-break: keep-all;
     }
 
     body {
-      background-color: #f8fafc;
-      color: #0f172a;
+      background-color: #FAFAFA;
+      color: #191F28;
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    /* 모던 글래스 및 정제된 카드 */
-    .studio-panel {
-      background: #ffffff;
-      border: 1px solid #e2e8f0;
-      box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.03);
+    .k-panel {
+      background: #FFFFFF;
+      border: 1px solid #E5E8EB;
+      box-shadow: 0 4px 20px -2px rgba(25, 31, 40, 0.04), 0 1px 3px rgba(25, 31, 40, 0.02);
+      border-radius: 20px;
+    }
+
+    .k-card-hover {
+      transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .k-card-hover:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 12px 28px -4px rgba(25, 31, 40, 0.08), 0 2px 6px -1px rgba(25, 31, 40, 0.04);
+      border-color: #D1D6DB;
     }
 
     .btn-press {
@@ -62,191 +110,300 @@
       transform: scale(0.98);
     }
 
-    /* 온스크린 키캡 모던 스타일 */
-    .key-cap {
-      transition: all 0.1s ease;
-      background: #ffffff;
-      border: 1px solid #cbd5e1;
-      box-shadow: 0 2px 0 #94a3b8;
-    }
-    .key-cap.active-press {
-      transform: translateY(2px);
-      box-shadow: 0 0 0 #94a3b8;
-      background-color: #e0e7ff !important;
-      border-color: #6366f1 !important;
-      color: #4338ca !important;
-    }
-    .key-cap.target-key {
-      background-color: #4f46e5 !important;
-      border-color: #4338ca !important;
-      color: #ffffff !important;
-      box-shadow: 0 0 12px rgba(79, 70, 229, 0.4), 0 2px 0 #312e81;
-    }
-    .key-cap.target-key span, 
-    .key-cap.target-key div {
-      color: #ffffff !important;
-    }
-
-    /* 글자 일치/오타 스타일 */
-    .char-correct {
-      color: #10b981;
-      background-color: #ecfdf5;
-      border-radius: 4px;
-    }
-    .char-wrong {
-      color: #ef4444;
-      background-color: #fef2f2;
-      border-radius: 4px;
-      text-decoration: underline wavy #ef4444;
-    }
-    .char-current {
-      background-color: #e0e7ff;
-      border-bottom: 2px solid #4f46e5;
-      animation: cursorBlink 1s infinite;
-    }
-
-    @keyframes cursorBlink {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
-    }
-
     #confettiCanvas {
-      pointer-events: none;
       position: fixed;
       inset: 0;
       width: 100vw;
       height: 100vh;
-      z-index: 100;
+      pointer-events: none;
+      z-index: 99;
+    }
+
+    .key-cap {
+      background: #FFFFFF;
+      border: 1px solid #E5E8EB;
+      box-shadow: 0 2px 0 #D1D6DB, 0 4px 6px -1px rgba(25, 31, 40, 0.04);
+      border-radius: 8px;
+      transition: all 0.1s ease;
+      cursor: default;
+    }
+    .key-cap.target-key {
+      background: #FF385C !important;
+      color: #FFFFFF !important;
+      border-color: #E01542 !important;
+      box-shadow: 0 0 14px rgba(255, 56, 92, 0.45), 0 3px 0 #C40D36 !important;
+      transform: translateY(-2px);
+    }
+    .key-cap.target-key span {
+      color: #FFFFFF !important;
+    }
+    .key-cap.active-press {
+      background: #FFF0F3 !important;
+      border-color: #FF385C !important;
+      transform: translateY(2px);
+      box-shadow: 0 0 0 transparent !important;
+    }
+
+    .char-current {
+      background-color: #FFF0F3;
+      color: #FF385C;
+      border-bottom: 3px solid #FF385C;
+      animation: blinkCursor 1s infinite;
+    }
+    .char-correct {
+      color: #04B066;
+    }
+    .char-wrong {
+      color: #F04452;
+      background-color: #FFF0F3;
+      text-decoration: underline wavy #F04452;
+    }
+
+    @keyframes blinkCursor {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
     }
   </style>
 </head>
-<body class="flex flex-col items-center justify-between p-3 sm:p-6 selection:bg-brand-500 selection:text-white">
+<body class="flex flex-col items-center justify-start min-h-screen p-3 sm:p-6 selection:bg-rausch-soft selection:text-rausch">
 
   <canvas id="confettiCanvas"></canvas>
 
-  <!-- 상단 네비게이션 바 -->
-  <header class="w-full max-w-4xl flex items-center justify-between py-3 px-5 rounded-2xl bg-white border border-slate-200 shadow-sm mb-5">
+  <header class="w-full max-w-4xl flex items-center justify-between py-3 px-5 rounded-full bg-white border border-line-hairline shadow-k-floating mb-4 sm:mb-6 sticky top-3 z-30">
     <div class="flex items-center gap-3 cursor-pointer" onclick="switchView('lobby')">
-      <div class="w-10 h-10 rounded-xl bg-slate-900 text-white flex items-center justify-center font-mono font-bold text-lg shadow-sm">
+      <div class="w-10 h-10 rounded-full bg-rausch text-white flex items-center justify-center font-mono font-bold text-lg shadow-sm">
         ⌨
       </div>
       <div>
-        <h1 class="text-lg sm:text-xl font-bold tracking-tight text-slate-900 flex items-center gap-2">
+        <h1 class="text-base sm:text-lg font-bold tracking-tight text-ink-primary flex items-center gap-2">
           <span>Typing Master Studio</span>
+          <span class="text-[11px] font-semibold px-2 py-0.5 rounded-full bg-rausch-soft text-rausch hidden sm:inline-block">K-Modern Edition</span>
         </h1>
-        <p class="text-xs text-slate-500 hidden sm:block">실시간 분당 타수(CPM) 측정 & 클라우드 실시간 랭킹</p>
+        <p class="text-xs text-ink-tertiary hidden sm:block tracking-snug">실시간 분당 타수(CPM) 측정 & 지혜의 명언 필사</p>
       </div>
     </div>
 
     <!-- 우측 제어 툴바: 언어 토글, 랭킹, 사운드, 홈 -->
     <div class="flex items-center gap-2">
-      <!-- 언어 선택 토글 스위치 (한글 / English) -->
-      <div class="flex items-center bg-slate-100 p-1 rounded-xl border border-slate-200 text-xs font-semibold">
-        <button id="langKrBtn" onclick="setLanguage('ko')" class="px-2.5 py-1 rounded-lg transition-all bg-white text-slate-900 shadow-xs">
+      <div class="flex items-center bg-surface-soft p-1 rounded-full border border-line-hairline text-xs font-semibold">
+        <button id="langKrBtn" onclick="setLanguage('ko')" class="px-3 py-1 rounded-full transition-all bg-white text-ink-primary shadow-xs font-bold">
           한국어
         </button>
-        <button id="langEnBtn" onclick="setLanguage('en')" class="px-2.5 py-1 rounded-lg transition-all text-slate-500 hover:text-slate-900">
+        <button id="langEnBtn" onclick="setLanguage('en')" class="px-3 py-1 rounded-full transition-all text-ink-tertiary hover:text-ink-primary font-medium">
           English
         </button>
       </div>
 
-      <!-- 랭킹 뷰 버튼 -->
-      <button onclick="switchView('ranking')" class="btn-press px-3 py-1.5 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 rounded-xl text-xs sm:text-sm font-semibold flex items-center gap-1.5">
-        <span class="text-amber-500">🏆</span> <span class="hidden sm:inline">실시간 랭킹</span>
+      <button onclick="switchView('ranking')" class="btn-press px-3.5 py-1.5 bg-surface-soft hover:bg-surface-hover border border-line-hairline text-ink-primary rounded-full text-xs sm:text-sm font-semibold flex items-center gap-1.5">
+        <span class="text-accent-gold">★</span> <span class="hidden sm:inline">실시간 랭킹</span>
       </button>
 
-      <!-- 사운드 토글 -->
-      <button id="soundToggleBtn" onclick="toggleAudio()" class="btn-press p-2 bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-600 rounded-xl text-xs sm:text-sm" title="효과음 토글">
+      <button id="soundToggleBtn" onclick="toggleAudio()" class="btn-press p-2 bg-surface-soft hover:bg-surface-hover border border-line-hairline text-ink-secondary rounded-full text-xs sm:text-sm" title="효과음 토글">
         <span id="soundIcon">🔊</span>
       </button>
 
-      <!-- 로비 홈 버튼 -->
-      <button id="homeBtn" onclick="switchView('lobby')" class="btn-press px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 text-indigo-700 rounded-xl text-xs sm:text-sm font-semibold hidden flex items-center gap-1">
+      <button id="homeBtn" onclick="switchView('lobby')" class="btn-press px-3.5 py-1.5 bg-rausch-soft hover:bg-rose-100 border border-rose-200 text-rausch rounded-full text-xs sm:text-sm font-semibold hidden flex items-center gap-1">
         <span>로비</span>
       </button>
     </div>
   </header>
 
-  <!-- 메인 인터페이스 컨테이너 -->
-  <main class="w-full max-w-4xl flex-1 flex flex-col items-center justify-center relative">
+  <main class="w-full max-w-4xl flex-1 flex flex-col items-center relative">
     
-    <!-- [1. 로비 화면]: 모드 선택 & 연습 시작 -->
+    <!-- [1. 로비 화면]: 모드 선택 & 오늘의 명언 -->
     <div id="viewLobby" class="w-full flex flex-col items-center">
       
-      <!-- 헤더 배너 -->
-      <div class="studio-panel rounded-2xl p-6 sm:p-8 w-full mb-6 border border-slate-200 text-left relative overflow-hidden">
-        <div class="flex items-center justify-between mb-3">
-          <span class="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
-            Realtime Typing Speedometer & Cloud Leaderboard
+      <!-- 에어비앤비 스타일 카테고리 바로가기 탭 바 -->
+      <div class="w-full flex items-center gap-2 sm:gap-2.5 overflow-x-auto pb-2 mb-3 scrollbar-none select-none">
+        <button onclick="startPracticeMode('quotes')" class="btn-press flex items-center gap-2 px-4 py-2 rounded-full bg-rausch text-white border border-rausch shadow-xs text-xs font-semibold whitespace-nowrap group">
+          <span>📖 지혜의 명언 필사</span>
+          <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-white/20 text-white font-bold">추천</span>
+        </button>
+        <button onclick="startPracticeMode('speed')" class="btn-press flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white hover:bg-surface-hover border border-line-hairline shadow-xs text-xs font-semibold text-ink-primary whitespace-nowrap">
+          <span>⚡ 1분 속타 챌린지</span>
+          <span class="text-[10px] px-1.5 py-0.2 rounded-full bg-rausch-soft text-rausch font-bold">인기</span>
+        </button>
+        <button onclick="startPracticeMode('words')" class="btn-press flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white hover:bg-surface-hover border border-line-hairline shadow-xs text-xs font-medium text-ink-secondary whitespace-nowrap">
+          <span>📚 단어·어휘 연습</span>
+        </button>
+        <button onclick="startPracticeMode('keys')" class="btn-press flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white hover:bg-surface-hover border border-line-hairline shadow-xs text-xs font-medium text-ink-secondary whitespace-nowrap">
+          <span>🎯 기본 자리 (F · J)</span>
+        </button>
+        <button onclick="switchView('ranking')" class="btn-press flex items-center gap-1.5 px-3.5 py-2 rounded-full bg-white hover:bg-surface-hover border border-line-hairline shadow-xs text-xs font-medium text-ink-secondary whitespace-nowrap ml-auto">
+          <span>🏆 명예의 전당</span>
+          <span class="text-ink-quaternary">→</span>
+        </button>
+      </div>
+
+      <!-- [신규] 오늘의 명언 (Quote of the Day) 프리뷰 카드 -->
+      <div class="k-panel w-full rounded-sheet p-5 sm:p-6 mb-4 bg-gradient-to-r from-amber-50/70 via-white to-rose-50/50 border border-amber-200/80 shadow-k-card relative overflow-hidden">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-2.5">
+          <div class="flex items-center gap-2">
+            <span class="px-2.5 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold flex items-center gap-1.5 border border-amber-200">
+              <span>💡</span>
+              <span id="qotdBadge">오늘의 영감 명언 (Quote of the Day)</span>
+            </span>
+            <span class="text-[11px] text-ink-tertiary">타자를 치기 전 마음에 새겨보세요</span>
+          </div>
+          <button onclick="refreshDailyQuote(true)" class="btn-press text-xs font-semibold text-ink-secondary hover:text-rausch flex items-center gap-1 px-2.5 py-1 rounded-full bg-white border border-line-hairline shadow-2xs">
+            <span>다른 명언 보기</span> <span>↺</span>
+          </button>
+        </div>
+
+        <!-- 명언 문장 & 저자 -->
+        <div class="my-2 pl-3 border-l-3 border-rausch">
+          <p id="dailyQuoteText" class="text-base sm:text-lg font-bold text-ink-primary tracking-tight leading-relaxed">
+            "시작이 반이라는 말처럼 우리는 이미 멋진 한 걸음을 내딛었습니다."
+          </p>
+          <div class="flex items-center gap-2 mt-1.5">
+            <span class="text-xs text-rausch font-bold">—</span>
+            <span id="dailyQuoteAuthor" class="text-xs sm:text-sm font-semibold text-ink-secondary">
+              아리스토텔레스 (Aristotle)
+            </span>
+          </div>
+        </div>
+
+        <!-- 즉시 따라치기 CTA 버튼 -->
+        <div class="mt-3.5 pt-3 border-t border-amber-100/80 flex flex-wrap items-center justify-between gap-2">
+          <span class="text-xs text-ink-tertiary">
+            ✨ 지금 바로 이 명언을 바른 손가락 자리로 따라 쳐볼까요?
           </span>
-          <span id="lobbyLangIndicator" class="text-xs font-medium text-slate-400">
+          <button onclick="startSpecificQuotePractice()" class="btn-press px-4 py-2 rounded-full bg-rausch hover:bg-rausch-hover text-white text-xs font-bold shadow-sm flex items-center gap-1.5">
+            <span>이 명언 지금 따라치기</span>
+            <span>✍️</span>
+          </button>
+        </div>
+      </div>
+
+      <div class="k-panel rounded-sheet p-6 sm:p-7 w-full mb-5 text-left relative overflow-hidden bg-gradient-to-br from-white via-surface-soft to-rausch-soft/20 border border-line-hairline">
+        <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+          <div class="flex items-center gap-2">
+            <span class="text-xs font-semibold px-3 py-1 rounded-full bg-white text-ink-secondary border border-line-hairline shadow-xs flex items-center gap-1.5">
+              <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+              <span>Realtime Speedometer & Cloud Leaderboard</span>
+            </span>
+          </div>
+          <span id="lobbyLangIndicator" class="text-xs font-semibold px-2.5 py-1 rounded-full bg-surface-hover text-ink-secondary border border-line-subtle">
             현재 언어: 한국어 (2벌식)
           </span>
         </div>
-        <h2 class="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-          오늘 당신의 <span class="text-indigo-600 font-extrabold underline decoration-indigo-200 underline-offset-4">분당 타자 속도</span>는 몇 타일까요?
+
+        <h2 class="text-2xl sm:text-3xl font-extrabold text-ink-primary tracking-tight leading-snug">
+          오늘 당신의 <span class="text-rausch underline decoration-rausch-soft decoration-4 underline-offset-4">분당 타자 속도</span>는 몇 타일까요?
         </h2>
-        <p class="text-sm text-slate-600 mt-2.5 max-w-2xl leading-relaxed">
-          화면의 가이드 키보드로 정확한 키 위치를 연습하고, 1분 챌린지를 통해 실시간 분당 타수(CPM)를 측정하여 글로벌 명예의 전당 랭킹에 도전하세요.
+        <p class="text-sm text-ink-secondary mt-2 max-w-2xl leading-relaxed">
+          화면의 정밀한 가이드 키보드로 올바른 손가락 자리를 체득하고, 위인들의 명언을 필사하며 실시간 분당 타수(CPM)를 측정해 보세요.
         </p>
+
+        <!-- 에어비앤비 감성 메타 정보 바 -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 mt-4 pt-3.5 border-t border-line-hairline text-ink-secondary">
+          <div class="flex items-center gap-2">
+            <span class="text-base">📖</span>
+            <div>
+              <div class="text-[11px] text-ink-tertiary">필사 모드</div>
+              <div class="text-xs font-bold text-ink-primary">동서양 명언 100선</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-base">⚡</span>
+            <div>
+              <div class="text-[11px] text-ink-tertiary">정밀도</div>
+              <div class="text-xs font-bold text-ink-primary">초·중·종성 분해 CPM</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-base">☁️</span>
+            <div>
+              <div class="text-[11px] text-ink-tertiary">클라우드 동기화</div>
+              <div class="text-xs font-bold text-emerald-600">실시간 반영 중</div>
+            </div>
+          </div>
+          <div class="flex items-center gap-2">
+            <span class="text-base">🏆</span>
+            <div>
+              <div class="text-[11px] text-ink-tertiary">명예의 전당</div>
+              <div class="text-xs font-bold text-ink-primary">상위 랭커 도전</div>
+            </div>
+          </div>
+        </div>
       </div>
 
-      <!-- 3가지 연습 모드 선택 카드 -->
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 w-full">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3.5 w-full">
         
-        <!-- 모드 1: 자리 연습 -->
-        <div onclick="startPracticeMode('keys')" class="studio-panel rounded-2xl p-5 hover:border-indigo-400 cursor-pointer transition-all hover:-translate-y-0.5 flex flex-col justify-between group">
+        <!-- 모드 1: [신규] 명언 필사 (Quote Typing) -->
+        <div onclick="startPracticeMode('quotes')" class="k-panel k-card-hover rounded-panel p-5 cursor-pointer flex flex-col justify-between group bg-gradient-to-b from-white to-amber-50/30 border-2 border-amber-300/80 shadow-xs">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center text-xl font-bold mb-4 font-mono group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
-              F J
+            <div class="w-11 h-11 rounded-2xl bg-amber-100 text-amber-900 flex items-center justify-center text-lg font-bold mb-3 shadow-2xs group-hover:scale-105 transition-transform">
+              📖
             </div>
-            <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[11px] font-semibold">기본 자리</span>
-            <h3 class="text-base font-bold text-slate-900 mt-2">자리 및 글자 연습</h3>
-            <p class="text-xs text-slate-500 mt-1.5 leading-relaxed" id="lobbyDescKeys">
-              홈 포지션(ㅁㄴㅇㄹ ㅓㅏㅣ;)부터 한 글자씩 올바른 손가락 자리를 체득합니다.
+            <div class="flex items-center gap-1.5">
+              <span class="px-2.5 py-0.5 rounded-full bg-amber-100 text-amber-900 text-[11px] font-bold">인기 필사</span>
+              <span class="px-2 py-0.5 rounded-full bg-rausch-soft text-rausch text-[10px] font-bold">저자 표시</span>
+            </div>
+            <h3 class="text-base font-bold text-ink-primary mt-2 tracking-tight">지혜의 명언 필사</h3>
+            <p class="text-xs text-ink-tertiary mt-1 leading-relaxed" id="lobbyDescQuotes">
+              역사 속 위인과 사상가들의 깊은 명언을 저자와 함께 한 글자씩 정성껏 따라 칩니다.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-semibold text-indigo-600 flex items-center justify-between">
-            <span>연습 시작</span>
+          <div class="mt-4 pt-3 border-t border-amber-200/60 text-xs font-bold text-amber-800 flex items-center justify-between">
+            <span>필사 시작하기</span>
             <span>→</span>
           </div>
         </div>
 
-        <!-- 모드 2: 낱말 연습 -->
-        <div onclick="startPracticeMode('words')" class="studio-panel rounded-2xl p-5 hover:border-indigo-400 cursor-pointer transition-all hover:-translate-y-0.5 flex flex-col justify-between group">
+        <!-- 모드 2: 1분 속타 챌린지 (랭킹 등록) -->
+        <div onclick="startPracticeMode('speed')" class="k-panel k-card-hover rounded-panel p-5 cursor-pointer flex flex-col justify-between group bg-gradient-to-b from-white to-rausch-soft/20 border-2 border-rausch/30">
           <div>
-            <div class="w-12 h-12 rounded-xl bg-slate-100 text-slate-700 flex items-center justify-center text-xl font-bold mb-4 font-mono group-hover:bg-indigo-50 group-hover:text-indigo-600 transition-colors">
-              W_
-            </div>
-            <span class="px-2 py-0.5 rounded-md bg-slate-100 text-slate-600 text-[11px] font-semibold">어휘 적응</span>
-            <h3 class="text-base font-bold text-slate-900 mt-2">단어·낱말 연습</h3>
-            <p class="text-xs text-slate-500 mt-1.5 leading-relaxed" id="lobbyDescWords">
-              프로그래밍 용어, 일상 어휘 등 자주 쓰이는 핵심 단어를 연속 입력합니다.
-            </p>
-          </div>
-          <div class="mt-4 pt-3 border-t border-slate-100 text-xs font-semibold text-indigo-600 flex items-center justify-between">
-            <span>연습 시작</span>
-            <span>→</span>
-          </div>
-        </div>
-
-        <!-- 모드 3: 1분 속타 챌린지 (랭킹 등록) -->
-        <div onclick="startPracticeMode('speed')" class="studio-panel rounded-2xl p-5 hover:border-indigo-600 bg-gradient-to-b from-white to-indigo-50/30 cursor-pointer transition-all hover:-translate-y-0.5 flex flex-col justify-between group border-indigo-200">
-          <div>
-            <div class="w-12 h-12 rounded-xl bg-indigo-600 text-white flex items-center justify-center text-xl font-bold mb-4 font-mono shadow-sm">
+            <div class="w-11 h-11 rounded-2xl bg-rausch text-white flex items-center justify-center text-lg font-bold mb-3 font-mono shadow-sm">
               60s
             </div>
             <div class="flex items-center gap-1.5">
-              <span class="px-2 py-0.5 rounded-md bg-indigo-100 text-indigo-700 text-[11px] font-bold">정밀 측정</span>
-              <span class="px-1.5 py-0.5 rounded bg-emerald-600 text-white text-[10px] font-bold">Cloud 랭킹</span>
+              <span class="px-2.5 py-0.5 rounded-full bg-rausch-soft text-rausch text-[11px] font-bold">정밀 측정</span>
+              <span class="px-2 py-0.5 rounded-full bg-ink-primary text-white text-[10px] font-bold">Cloud 랭킹</span>
             </div>
-            <h3 class="text-base font-bold text-slate-900 mt-2">1분 속타 챌린지</h3>
-            <p class="text-xs text-slate-600 mt-1.5 leading-relaxed" id="lobbyDescSpeed">
+            <h3 class="text-base font-bold text-ink-primary mt-2 tracking-tight">1분 속타 챌린지</h3>
+            <p class="text-xs text-ink-secondary mt-1 leading-relaxed" id="lobbyDescSpeed">
               실시간 분당 타수(CPM)를 정밀 측정하고 클라우드 명예의 전당에 등록합니다.
             </p>
           </div>
-          <div class="mt-4 pt-3 border-t border-indigo-100 text-xs font-bold text-indigo-600 flex items-center justify-between">
-            <span>도전 시작</span>
+          <div class="mt-4 pt-3 border-t border-rose-100 text-xs font-bold text-rausch flex items-center justify-between">
+            <span>도전 시작하기</span>
+            <span>→</span>
+          </div>
+        </div>
+
+        <!-- 모드 3: 낱말 연습 -->
+        <div onclick="startPracticeMode('words')" class="k-panel k-card-hover rounded-panel p-5 cursor-pointer flex flex-col justify-between group bg-white border border-line-hairline">
+          <div>
+            <div class="w-11 h-11 rounded-2xl bg-surface-soft text-ink-primary flex items-center justify-center text-base font-bold mb-3 font-mono group-hover:bg-rausch-soft group-hover:text-rausch transition-colors border border-line-subtle">
+              W_
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full bg-surface-soft text-ink-secondary text-[11px] font-semibold border border-line-hairline">어휘 적응</span>
+            <h3 class="text-base font-bold text-ink-primary mt-2 tracking-tight">단어·낱말 연습</h3>
+            <p class="text-xs text-ink-tertiary mt-1 leading-relaxed" id="lobbyDescWords">
+              프로그래밍 용어, 일상 어휘 등 자주 쓰이는 핵심 단어를 연속 입력합니다.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-line-hairline text-xs font-semibold text-rausch flex items-center justify-between">
+            <span>연습 시작하기</span>
+            <span>→</span>
+          </div>
+        </div>
+
+        <!-- 모드 4: 기본 자리 연습 -->
+        <div onclick="startPracticeMode('keys')" class="k-panel k-card-hover rounded-panel p-5 cursor-pointer flex flex-col justify-between group bg-white border border-line-hairline">
+          <div>
+            <div class="w-11 h-11 rounded-2xl bg-surface-soft text-ink-primary flex items-center justify-center text-base font-bold mb-3 font-mono group-hover:bg-rausch-soft group-hover:text-rausch transition-colors border border-line-subtle">
+              F J
+            </div>
+            <span class="px-2.5 py-0.5 rounded-full bg-surface-soft text-ink-secondary text-[11px] font-semibold border border-line-hairline">기본 자리</span>
+            <h3 class="text-base font-bold text-ink-primary mt-2 tracking-tight">자리 및 글자 연습</h3>
+            <p class="text-xs text-ink-tertiary mt-1 leading-relaxed" id="lobbyDescKeys">
+              홈 포지션(ㅁㄴㅇㄹ ㅓㅏㅣ;)부터 한 글자씩 올바른 손가락 자리를 체득합니다.
+            </p>
+          </div>
+          <div class="mt-4 pt-3 border-t border-line-hairline text-xs font-semibold text-rausch flex items-center justify-between">
+            <span>연습 시작하기</span>
             <span>→</span>
           </div>
         </div>
@@ -255,60 +412,59 @@
 
     </div>
 
-    <!-- [2. 타자 연습 플레이 화면] -->
     <div id="viewPractice" class="w-full hidden flex-col items-center">
       
       <!-- 상단 실시간 대시보드 HUD -->
-      <div class="w-full grid grid-cols-2 sm:grid-cols-4 gap-2.5 sm:gap-3 mb-4">
+      <div class="w-full grid grid-cols-2 sm:grid-cols-4 gap-3 mb-4">
         
         <!-- 실시간 분당 타수 (CPM) -->
-        <div class="studio-panel rounded-xl p-3.5 flex items-center gap-3">
-          <div class="w-9 h-9 rounded-lg bg-indigo-50 text-indigo-600 flex items-center justify-center font-bold text-sm flex-shrink-0">
+        <div class="k-panel rounded-card p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-rausch-soft text-rausch flex items-center justify-center font-bold text-sm flex-shrink-0">
             ⚡
           </div>
           <div>
-            <div class="text-[11px] text-slate-400 font-medium">현재 분당 타수</div>
-            <div class="text-xl sm:text-2xl font-bold text-indigo-600 font-mono flex items-baseline gap-1">
-              <span id="hudCpm">0</span> <span class="text-xs font-sans font-normal text-slate-400">타/분</span>
+            <div class="text-[11px] text-ink-tertiary font-medium">현재 분당 타수</div>
+            <div class="text-xl sm:text-2xl font-bold text-rausch font-mono flex items-baseline gap-1">
+              <span id="hudCpm">0</span> <span class="text-xs font-sans font-normal text-ink-quaternary">타/분</span>
             </div>
           </div>
         </div>
 
         <!-- 정확도 -->
-        <div class="studio-panel rounded-xl p-3.5 flex items-center gap-3">
-          <div class="w-9 h-9 rounded-lg bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm flex-shrink-0">
+        <div class="k-panel rounded-card p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-emerald-50 text-emerald-600 flex items-center justify-center font-bold text-sm flex-shrink-0">
             🎯
           </div>
           <div>
-            <div class="text-[11px] text-slate-400 font-medium">정확도</div>
-            <div class="text-xl sm:text-2xl font-bold text-slate-800 font-mono">
-              <span id="hudAccuracy">100</span><span class="text-xs font-sans font-normal text-slate-400">%</span>
+            <div class="text-[11px] text-ink-tertiary font-medium">정확도</div>
+            <div class="text-xl sm:text-2xl font-bold text-ink-primary font-mono">
+              <span id="hudAccuracy">100</span><span class="text-xs font-sans font-normal text-ink-quaternary">%</span>
             </div>
           </div>
         </div>
 
         <!-- 최고 속도 -->
-        <div class="studio-panel rounded-xl p-3.5 flex items-center gap-3">
-          <div class="w-9 h-9 rounded-lg bg-amber-50 text-amber-600 flex items-center justify-center font-bold text-sm flex-shrink-0">
-            🔥
+        <div class="k-panel rounded-card p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-amber-50 text-accent-gold flex items-center justify-center font-bold text-sm flex-shrink-0">
+            ★
           </div>
           <div>
-            <div class="text-[11px] text-slate-400 font-medium">최고 타수</div>
-            <div class="text-xl sm:text-2xl font-bold text-slate-800 font-mono">
-              <span id="hudMaxCpm">0</span> <span class="text-xs font-sans font-normal text-slate-400">CPM</span>
+            <div class="text-[11px] text-ink-tertiary font-medium">최고 타수</div>
+            <div class="text-xl sm:text-2xl font-bold text-ink-primary font-mono">
+              <span id="hudMaxCpm">0</span> <span class="text-xs font-sans font-normal text-ink-quaternary">CPM</span>
             </div>
           </div>
         </div>
 
         <!-- 남은 시간 / 경과 시간 -->
-        <div class="studio-panel rounded-xl p-3.5 flex items-center gap-3">
-          <div class="w-9 h-9 rounded-lg bg-slate-100 text-slate-700 flex items-center justify-center font-bold text-sm flex-shrink-0">
+        <div class="k-panel rounded-card p-4 flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full bg-surface-soft text-ink-secondary flex items-center justify-center font-bold text-sm flex-shrink-0">
             ⏱
           </div>
           <div>
-            <div id="hudTimerLabel" class="text-[11px] text-slate-400 font-medium">남은 시간</div>
-            <div class="text-xl sm:text-2xl font-bold text-slate-800 font-mono">
-              <span id="hudTimer">60s</span>
+            <div id="hudTimerLabel" class="text-[11px] text-ink-tertiary font-medium">경과 시간</div>
+            <div class="text-xl sm:text-2xl font-bold text-ink-primary font-mono">
+              <span id="hudTimer">0s</span>
             </div>
           </div>
         </div>
@@ -316,26 +472,34 @@
       </div>
 
       <!-- 메인 타자 영역 박스 -->
-      <div class="studio-panel w-full rounded-2xl p-5 sm:p-7 flex flex-col items-center mb-4 relative">
+      <div class="k-panel w-full rounded-panel p-6 sm:p-8 flex flex-col items-center mb-4 relative bg-white">
         
         <!-- 상태 표시 바 -->
-        <div class="w-full flex items-center justify-between mb-4 pb-2.5 border-b border-slate-100">
+        <div class="w-full flex items-center justify-between mb-4 pb-3 border-b border-line-hairline">
           <div class="flex items-center gap-2">
-            <span id="practiceModeBadge" class="text-xs font-bold px-2.5 py-1 rounded-md bg-indigo-50 text-indigo-700">
-              1분 속타 챌린지
+            <span id="practiceModeBadge" class="text-xs font-bold px-3 py-1 rounded-full bg-rausch-soft text-rausch">
+              지혜의 명언 필사
             </span>
-            <span id="practiceLangBadge" class="text-xs font-semibold px-2 py-0.5 rounded bg-slate-100 text-slate-600">
+            <span id="practiceLangBadge" class="text-xs font-semibold px-2.5 py-0.5 rounded-full bg-surface-soft text-ink-secondary border border-line-hairline">
               한국어
             </span>
           </div>
-          <span id="practiceProgress" class="text-xs font-medium text-slate-400 font-mono">
-            1 / 8
+          <span id="practiceProgress" class="text-xs font-medium text-ink-tertiary font-mono">
+            1 / 10
           </span>
         </div>
 
+        <!-- 저자 정보 표시 배지 (명언 모드 시 자동 노출) -->
+        <div id="authorContainer" class="w-full flex justify-end mb-2">
+          <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 border border-amber-200 text-xs font-semibold text-amber-900 shadow-2xs">
+            <span class="text-amber-600">✍️️</span>
+            <span id="targetAuthorText">알베르트 아인슈타인 (Albert Einstein)</span>
+          </div>
+        </div>
+
         <!-- 제시 문장/단어 디스플레이 영역 -->
-        <div class="w-full min-h-[76px] sm:min-h-[90px] flex items-center justify-center bg-slate-50 rounded-xl p-4 border border-slate-200/80 mb-4">
-          <div id="targetTextDisplay" class="text-xl sm:text-2xl font-bold tracking-normal text-slate-800 text-center select-none leading-relaxed flex flex-wrap justify-center gap-0.5">
+        <div class="w-full min-h-[88px] sm:min-h-[104px] flex items-center justify-center bg-surface-soft rounded-2xl p-5 border border-line-hairline mb-4">
+          <div id="targetTextDisplay" class="text-xl sm:text-2xl font-bold tracking-tight text-ink-primary text-center select-none leading-relaxed flex flex-wrap justify-center gap-0.5">
             <!-- 자바스크립트 동적 렌더링 -->
           </div>
         </div>
@@ -345,8 +509,8 @@
           <input 
             type="text" 
             id="typingInput"
-            placeholder="여기에 위 문장을 입력하세요..." 
-            class="w-full px-5 py-3.5 rounded-xl bg-white border-2 border-indigo-500 focus:border-indigo-600 focus:ring-4 focus:ring-indigo-100 focus:outline-none text-xl sm:text-2xl font-semibold text-slate-900 transition-all text-center placeholder:text-slate-400 placeholder:text-base placeholder:font-normal"
+            placeholder="여기에 위 명언 문장을 입력하세요..." 
+            class="w-full px-5 py-4 rounded-xl bg-white border-2 border-line-strong focus:border-rausch focus:ring-4 focus:ring-rausch-soft focus:outline-none text-xl sm:text-2xl font-semibold text-ink-primary transition-all text-center placeholder:text-ink-quaternary placeholder:text-base placeholder:font-normal"
             autocomplete="off"
             autocorrect="off"
             autocapitalize="off"
@@ -355,26 +519,25 @@
           <button 
             type="button" 
             onclick="resetCurrentMode()"
-            class="absolute right-3 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-slate-100 hover:bg-slate-200 text-slate-600 text-xs font-semibold transition"
+            class="absolute right-3.5 top-1/2 -translate-y-1/2 px-3 py-1.5 rounded-lg bg-surface-soft hover:bg-surface-hover text-ink-secondary text-xs font-semibold transition border border-line-hairline"
           >
             다시 시작 ↺
           </button>
         </div>
 
         <!-- 하단 피드백 힌트 -->
-        <div id="typingFeedbackHint" class="text-xs font-medium text-slate-500 mt-3 flex items-center gap-1.5">
-          <span>💡</span> <span>입력 후 스페이스바 또는 Enter 키를 누르면 다음으로 넘어갑니다.</span>
+        <div id="typingFeedbackHint" class="text-xs font-medium text-ink-tertiary mt-3 flex items-center gap-1.5">
+          <span>💡</span> <span>입력 후 스페이스바 또는 Enter 키를 누르면 다음 문장으로 넘어갑니다.</span>
         </div>
       </div>
 
-      <!-- 온스크린 시각적 키보드 (한글/영문 가변 레이아웃) -->
-      <div class="studio-panel w-full rounded-2xl p-4 sm:p-5 overflow-x-auto">
-        <div class="flex items-center justify-between mb-2.5 px-1 text-xs text-slate-500 font-medium">
+      <div class="k-panel w-full rounded-panel p-4 sm:p-5 overflow-x-auto bg-white">
+        <div class="flex items-center justify-between mb-3 px-1 text-xs text-ink-tertiary font-medium">
           <span class="flex items-center gap-1.5">
-            <span class="w-2 h-2 rounded-full bg-indigo-500"></span>
-            <span>키보드 가이드 (파란색 키를 누르세요)</span>
+            <span class="w-2 h-2 rounded-full bg-rausch"></span>
+            <span>키보드 가이드 (코랄색 키를 누르세요)</span>
           </span>
-          <span id="fingerGuideText" class="text-indigo-700 bg-indigo-50 px-2.5 py-0.5 rounded-md border border-indigo-100 font-semibold">
+          <span id="fingerGuideText" class="text-rausch bg-rausch-soft px-3 py-0.5 rounded-full font-semibold border border-rose-200">
             왼손 검지 자리
           </span>
         </div>
@@ -383,113 +546,111 @@
         <div id="virtualKeyboard" class="flex flex-col gap-1.5 min-w-[640px] max-w-3xl mx-auto select-none font-mono">
           <!-- 키보드 행 1 (숫자열) -->
           <div class="flex gap-1 justify-center">
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="`">~<br>`</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="1">! 1</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="2">@ 2</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="3"># 3</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="4">$ 4</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="5">% 5</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="6">^ 6</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="7">& 7</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="8">* 8</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="9">( 9</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="0">) 0</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="-">_ -</div>
-            <div class="key-cap w-10 h-10 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="=">+ =</div>
-            <div class="key-cap w-14 h-10 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500" data-key="Backspace">Back</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="`">~<br>`</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="1">! 1</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="2">@ 2</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="3"># 3</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="4">$ 4</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="5">% 5</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="6">^ 6</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="7">& 7</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="8">* 8</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="9">( 9</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="0">) 0</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="-">_ -</div>
+            <div class="key-cap w-10 h-10 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="=">+ =</div>
+            <div class="key-cap w-14 h-10 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary" data-key="Backspace">Back</div>
           </div>
 
           <!-- 키보드 행 2 (Q W E R T ...) -->
           <div class="flex gap-1 justify-center">
-            <div class="key-cap w-14 h-11 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500" data-key="Tab">Tab</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="q" data-hangul="ㅂ"><span class="key-sub text-[10px] text-slate-400">ㅃ ㅂ</span><span>Q</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="w" data-hangul="ㅈ"><span class="key-sub text-[10px] text-slate-400">ㅉ ㅈ</span><span>W</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="e" data-hangul="ㄷ"><span class="key-sub text-[10px] text-slate-400">ㄸ ㄷ</span><span>E</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="r" data-hangul="ㄱ"><span class="key-sub text-[10px] text-slate-400">ㄲ ㄱ</span><span>R</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="t" data-hangul="ㅅ"><span class="key-sub text-[10px] text-slate-400">ㅆ ㅅ</span><span>T</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="y" data-hangul="ㅛ"><span class="key-sub text-[10px] text-slate-400">ㅛ</span><span>Y</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="u" data-hangul="ㅕ"><span class="key-sub text-[10px] text-slate-400">ㅕ</span><span>U</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="i" data-hangul="ㅑ"><span class="key-sub text-[10px] text-slate-400">ㅑ</span><span>I</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="o" data-hangul="ㅐ"><span class="key-sub text-[10px] text-slate-400">ㅒ ㅐ</span><span>O</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="p" data-hangul="ㅔ"><span class="key-sub text-[10px] text-slate-400">ㅖ ㅔ</span><span>P</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="[">{ [</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="]">} ]</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="\">| \</div>
+            <div class="key-cap w-14 h-11 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary" data-key="Tab">Tab</div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="q" data-hangul="ㅂ"><span class="key-sub text-[10px] text-ink-quaternary">ㅃ ㅂ</span><span>Q</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="w" data-hangul="ㅈ"><span class="key-sub text-[10px] text-ink-quaternary">ㅉ ㅈ</span><span>W</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="e" data-hangul="ㄷ"><span class="key-sub text-[10px] text-ink-quaternary">ㄸ ㄷ</span><span>E</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="r" data-hangul="ㄱ"><span class="key-sub text-[10px] text-ink-quaternary">ㄲ ㄱ</span><span>R</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="t" data-hangul="ㅅ"><span class="key-sub text-[10px] text-ink-quaternary">ㅆ ㅅ</span><span>T</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="y" data-hangul="ㅛ"><span class="key-sub text-[10px] text-ink-quaternary">ㅛ</span><span>Y</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="u" data-hangul="ㅕ"><span class="key-sub text-[10px] text-ink-quaternary">ㅕ</span><span>U</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="i" data-hangul="ㅑ"><span class="key-sub text-[10px] text-ink-quaternary">ㅑ</span><span>I</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="o" data-hangul="ㅐ"><span class="key-sub text-[10px] text-ink-quaternary">ㅒ ㅐ</span><span>O</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="p" data-hangul="ㅔ"><span class="key-sub text-[10px] text-ink-quaternary">ㅖ ㅔ</span><span>P</span></div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="[">{ [</div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="]">} ]</div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="\">| \</div>
           </div>
 
           <!-- 키보드 행 3 (A S D F G ... 기본 자리) -->
           <div class="flex gap-1 justify-center">
-            <div class="key-cap w-16 h-11 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500" data-key="CapsLock">Caps</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="a" data-hangul="ㅁ"><span class="key-sub text-[10px] text-slate-400">ㅁ</span><span>A</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="s" data-hangul="ㄴ"><span class="key-sub text-[10px] text-slate-400">ㄴ</span><span>S</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="d" data-hangul="ㅇ"><span class="key-sub text-[10px] text-slate-400">ㅇ</span><span>D</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800 border-indigo-300" data-key="f" data-hangul="ㄹ"><span class="key-sub text-[10px] text-slate-400">ㄹ-</span><span>F-</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="g" data-hangul="ㅎ"><span class="key-sub text-[10px] text-slate-400">ㅎ</span><span>G</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="h" data-hangul="ㅗ"><span class="key-sub text-[10px] text-slate-400">ㅗ</span><span>H</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800 border-indigo-300" data-key="j" data-hangul="ㅓ"><span class="key-sub text-[10px] text-slate-400">ㅓ-</span><span>J-</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="k" data-hangul="ㅏ"><span class="key-sub text-[10px] text-slate-400">ㅏ</span><span>K</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="l" data-hangul="ㅣ"><span class="key-sub text-[10px] text-slate-400">ㅣ</span><span>L</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key=";">: ;</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="'">" '</div>
-            <div class="key-cap w-18 h-11 rounded-lg bg-slate-800 text-[11px] font-semibold flex items-center justify-center text-white" data-key="Enter">Enter ↵</div>
+            <div class="key-cap w-16 h-11 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary" data-key="CapsLock">Caps</div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="a" data-hangul="ㅁ"><span class="key-sub text-[10px] text-ink-quaternary">ㅁ</span><span>A</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="s" data-hangul="ㄴ"><span class="key-sub text-[10px] text-ink-quaternary">ㄴ</span><span>S</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="d" data-hangul="ㅇ"><span class="key-sub text-[10px] text-ink-quaternary">ㅇ</span><span>D</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary border-rose-300" data-key="f" data-hangul="ㄹ"><span class="key-sub text-[10px] text-ink-quaternary">ㄹ-</span><span>F-</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="g" data-hangul="ㅎ"><span class="key-sub text-[10px] text-ink-quaternary">ㅎ</span><span>G</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="h" data-hangul="ㅗ"><span class="key-sub text-[10px] text-ink-quaternary">ㅗ</span><span>H</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary border-rose-300" data-key="j" data-hangul="ㅓ"><span class="key-sub text-[10px] text-ink-quaternary">ㅓ-</span><span>J-</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="k" data-hangul="ㅏ"><span class="key-sub text-[10px] text-ink-quaternary">ㅏ</span><span>K</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="l" data-hangul="ㅣ"><span class="key-sub text-[10px] text-ink-quaternary">ㅣ</span><span>L</span></div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key=";">: ;</div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="'">" '</div>
+            <div class="key-cap w-18 h-11 bg-ink-primary text-[11px] font-semibold flex items-center justify-center text-white" data-key="Enter">Enter ↵</div>
           </div>
 
           <!-- 키보드 행 4 (Z X C V B ...) -->
           <div class="flex gap-1 justify-center">
-            <div class="key-cap w-20 h-11 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500" data-key="Shift">Shift</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="z" data-hangul="ㅋ"><span class="key-sub text-[10px] text-slate-400">ㅋ</span><span>Z</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="x" data-hangul="ㅌ"><span class="key-sub text-[10px] text-slate-400">ㅌ</span><span>X</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="c" data-hangul="ㅊ"><span class="key-sub text-[10px] text-slate-400">ㅊ</span><span>C</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="v" data-hangul="ㅍ"><span class="key-sub text-[10px] text-slate-400">ㅍ</span><span>V</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="b" data-hangul="ㅠ"><span class="key-sub text-[10px] text-slate-400">ㅠ</span><span>B</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="n" data-hangul="ㅜ"><span class="key-sub text-[10px] text-slate-400">ㅜ</span><span>N</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-sm font-semibold flex flex-col items-center justify-center text-slate-800" data-key="m" data-hangul="ㅡ"><span class="key-sub text-[10px] text-slate-400">ㅡ</span><span>M</span></div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key=",">< <br>,</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key=".">> <br>.</div>
-            <div class="key-cap w-10 h-11 rounded-lg text-xs font-medium flex flex-col items-center justify-center text-slate-700" data-key="/">? <br>/</div>
-            <div class="key-cap w-24 h-11 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500" data-key="Shift">Shift</div>
+            <div class="key-cap w-20 h-11 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary" data-key="Shift">Shift</div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="z" data-hangul="ㅋ"><span class="key-sub text-[10px] text-ink-quaternary">ㅋ</span><span>Z</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="x" data-hangul="ㅌ"><span class="key-sub text-[10px] text-ink-quaternary">ㅌ</span><span>X</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="c" data-hangul="ㅊ"><span class="key-sub text-[10px] text-ink-quaternary">ㅊ</span><span>C</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="v" data-hangul="ㅍ"><span class="key-sub text-[10px] text-ink-quaternary">ㅍ</span><span>V</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="b" data-hangul="ㅠ"><span class="key-sub text-[10px] text-ink-quaternary">ㅠ</span><span>B</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="n" data-hangul="ㅜ"><span class="key-sub text-[10px] text-ink-quaternary">ㅜ</span><span>N</span></div>
+            <div class="key-cap w-10 h-11 text-sm font-semibold flex flex-col items-center justify-center text-ink-primary" data-key="m" data-hangul="ㅡ"><span class="key-sub text-[10px] text-ink-quaternary">ㅡ</span><span>M</span></div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key=",">< <br>,</div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key=".">> <br>.</div>
+            <div class="key-cap w-10 h-11 text-xs font-medium flex flex-col items-center justify-center text-ink-secondary" data-key="/">? <br>/</div>
+            <div class="key-cap w-24 h-11 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary" data-key="Shift">Shift</div>
           </div>
 
           <!-- 키보드 행 5 (스페이스바) -->
           <div class="flex gap-1 justify-center">
-            <div class="key-cap w-16 h-10 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500">Ctrl</div>
-            <div class="key-cap w-14 h-10 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500">Alt</div>
-            <div class="key-cap flex-1 max-w-sm h-10 rounded-lg bg-white text-xs font-medium flex items-center justify-center text-slate-500" data-key=" ">
+            <div class="key-cap w-16 h-10 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary">Ctrl</div>
+            <div class="key-cap w-14 h-10 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary">Alt</div>
+            <div class="key-cap flex-1 max-w-sm h-10 bg-white text-xs font-medium flex items-center justify-center text-ink-tertiary" data-key=" ">
               Spacebar (공백)
             </div>
-            <div class="key-cap w-14 h-10 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500">한/영</div>
-            <div class="key-cap w-16 h-10 rounded-lg bg-slate-100 text-[11px] font-semibold flex items-center justify-center text-slate-500">Ctrl</div>
+            <div class="key-cap w-14 h-10 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary">한/영</div>
+            <div class="key-cap w-16 h-10 bg-surface-soft text-[11px] font-semibold flex items-center justify-center text-ink-tertiary">Ctrl</div>
           </div>
         </div>
       </div>
 
     </div>
 
-    <!-- [3. 명예의 전당 랭킹 화면] -->
     <div id="viewRanking" class="w-full hidden flex-col items-center">
       
-      <div class="studio-panel rounded-2xl p-6 sm:p-8 w-full">
-        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+      <div class="k-panel rounded-panel p-6 sm:p-8 w-full bg-white">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-line-hairline">
           <div>
             <div class="flex items-center gap-2 mb-1">
               <span class="text-xl">🏆</span>
-              <h2 class="text-xl sm:text-2xl font-bold text-slate-900">
+              <h2 class="text-xl sm:text-2xl font-bold text-ink-primary tracking-tight">
                 타자 마스터 명예의 전당
               </h2>
             </div>
-            <p class="text-xs sm:text-sm text-slate-500">
-              클라우드 실시간 동기화로 기록되는 글로벌 타자 순위입니다.
+            <p class="text-xs sm:text-sm text-ink-tertiary">
+              Firebase 실시간 동기화로 기록되는 글로벌 타자 순위입니다.
             </p>
           </div>
 
-          <div class="flex items-center gap-2">
-            <!-- 랭킹 필터 (전체 / 한국어 / 영어) -->
-            <select id="rankingFilterSelect" onchange="renderRankingTable()" class="px-3 py-2 rounded-xl border border-slate-200 bg-white text-xs font-semibold text-slate-700 focus:outline-none">
+          <div class="flex items-center gap-2.5">
+            <select id="rankingFilterSelect" onchange="renderRankingTable()" class="px-3.5 py-2 rounded-full border border-line-hairline bg-surface-soft text-xs font-semibold text-ink-secondary focus:outline-none focus:border-rausch">
               <option value="all">전체 언어</option>
               <option value="ko">한국어만</option>
               <option value="en">English만</option>
             </select>
-            <button onclick="startPracticeMode('speed')" class="btn-press px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold text-xs sm:text-sm shadow-sm">
+            <button onclick="startPracticeMode('speed')" class="btn-press px-5 py-2 bg-rausch hover:bg-rausch-hover active:bg-rausch-active text-white rounded-full font-semibold text-xs sm:text-sm shadow-sm transition">
               도전하기
             </button>
           </div>
@@ -499,66 +660,62 @@
         <div class="overflow-x-auto">
           <table class="w-full text-left border-collapse">
             <thead>
-              <tr class="bg-slate-50 text-slate-600 text-xs font-bold border-b border-slate-200">
-                <th class="py-3 px-3 text-center rounded-l-lg">순위</th>
-                <th class="py-3 px-4">사용자</th>
-                <th class="py-3 px-4 text-center">언어</th>
-                <th class="py-3 px-4 text-center">분당 타수</th>
-                <th class="py-3 px-4 text-center">정확도</th>
-                <th class="py-3 px-4 text-center">등급</th>
-                <th class="py-3 px-3 text-center rounded-r-lg">기록 일시</th>
+              <tr class="bg-surface-soft text-ink-secondary text-xs font-bold border-b border-line-hairline">
+                <th class="py-3.5 px-3 text-center rounded-l-xl">순위</th>
+                <th class="py-3.5 px-4">사용자</th>
+                <th class="py-3.5 px-4 text-center">언어</th>
+                <th class="py-3.5 px-4 text-center">분당 타수</th>
+                <th class="py-3.5 px-4 text-center">정확도</th>
+                <th class="py-3.5 px-4 text-center">등급</th>
+                <th class="py-3.5 px-3 text-center rounded-r-xl">기록 일시</th>
               </tr>
             </thead>
-            <tbody id="rankingTableBody" class="divide-y divide-slate-100 text-xs sm:text-sm font-medium text-slate-700">
+            <tbody id="rankingTableBody" class="divide-y divide-line-hairline text-xs sm:text-sm font-medium text-ink-secondary">
               <!-- JS 동적 렌더링 -->
             </tbody>
           </table>
         </div>
 
-        <!-- 클라우드 상태 안내문 -->
-        <div id="cloudStatusNote" class="mt-6 p-3 bg-slate-50 rounded-xl border border-slate-200 text-center text-xs text-slate-500 font-medium">
+        <div id="cloudStatusNote" class="mt-6 p-3.5 bg-surface-soft rounded-2xl border border-line-hairline text-center text-xs text-ink-tertiary font-medium">
           ○ Firebase 클라우드 연결 상태 확인 중...
         </div>
       </div>
 
     </div>
 
-    <!-- [결과 발표 및 랭킹 등록 모달] -->
-    <div id="resultModal" class="hidden fixed inset-0 z-50 bg-slate-900/40 backdrop-blur-sm flex items-center justify-center p-4">
-      <div class="studio-panel rounded-2xl p-6 sm:p-8 max-w-md w-full text-center border border-slate-200">
+    <div id="resultModal" class="hidden fixed inset-0 z-50 bg-ink-primary/40 backdrop-blur-sm flex items-center justify-center p-4">
+      <div class="k-panel rounded-sheet p-6 sm:p-8 max-w-md w-full text-center border border-line-hairline shadow-k-popover bg-white">
         
         <div id="resultBadgeIcon" class="text-4xl mb-2">🎉</div>
-        <h3 id="resultTitle" class="text-xl sm:text-2xl font-bold text-slate-900">측정 완료</h3>
-        <p id="resultSubtitle" class="text-slate-500 text-xs sm:text-sm mt-1">타자 속도 및 정확도 분석 결과입니다</p>
+        <h3 id="resultTitle" class="text-xl sm:text-2xl font-bold text-ink-primary tracking-tight">측정 완료</h3>
+        <p id="resultSubtitle" class="text-ink-tertiary text-xs sm:text-sm mt-1">타자 속도 및 정확도 분석 결과입니다</p>
 
         <!-- 핵심 점수 카드 -->
-        <div class="my-5 p-4 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-around">
+        <div class="my-5 p-4 rounded-2xl bg-surface-soft border border-line-hairline flex items-center justify-around">
           <div>
-            <div class="text-[11px] text-slate-500 font-medium">평균 분당 타수</div>
-            <div class="text-3xl sm:text-4xl text-indigo-600 font-extrabold font-mono flex items-baseline justify-center gap-1">
-              <span id="resultFinalCpm">0</span> <span class="text-xs font-sans font-normal text-slate-400">타/분</span>
+            <div class="text-[11px] text-ink-tertiary font-medium">평균 분당 타수</div>
+            <div class="text-3xl sm:text-4xl text-rausch font-extrabold font-mono flex items-baseline justify-center gap-1">
+              <span id="resultFinalCpm">0</span> <span class="text-xs font-sans font-normal text-ink-quaternary">타/분</span>
             </div>
           </div>
-          <div class="w-px h-10 bg-slate-200"></div>
+          <div class="w-px h-10 bg-line-hairline"></div>
           <div>
-            <div class="text-[11px] text-slate-500 font-medium">정확도</div>
+            <div class="text-[11px] text-ink-tertiary font-medium">정확도</div>
             <div class="text-2xl sm:text-3xl text-emerald-600 font-bold font-mono">
-              <span id="resultFinalAcc">100</span><span class="text-xs font-sans font-normal text-slate-400">%</span>
+              <span id="resultFinalAcc">100</span><span class="text-xs font-sans font-normal text-ink-quaternary">%</span>
             </div>
           </div>
         </div>
 
-        <!-- 칭호 뱃지 -->
         <div class="mb-5">
-          <span class="text-xs text-slate-400">나의 타자 등급: </span>
-          <span id="resultTierBadge" class="px-3 py-1 rounded-full bg-slate-100 text-slate-800 font-bold text-xs border border-slate-200">
-            타자 탐험가
+          <span class="text-xs text-ink-quaternary">나의 타자 등급: </span>
+          <span id="resultTierBadge" class="px-3.5 py-1 rounded-full bg-rausch-soft text-rausch font-bold text-xs border border-rose-200">
+            지혜의 탐험가
           </span>
         </div>
 
-        <!-- 랭킹 등록 인풋 폼 -->
-        <div id="rankingSubmitBox" class="p-4 rounded-xl bg-indigo-50/60 border border-indigo-100 mb-5 text-left">
-          <label class="text-xs font-bold text-indigo-900 block mb-1.5">
+        <div id="rankingSubmitBox" class="p-4 rounded-2xl bg-surface-soft border border-line-hairline mb-5 text-left">
+          <label class="text-xs font-bold text-ink-primary block mb-1.5">
             🏆 명예의 전당 클라우드 등록
           </label>
           <div class="flex gap-2">
@@ -567,13 +724,13 @@
               id="playerNameInput" 
               maxlength="10" 
               placeholder="닉네임 입력 (예: FastFingers)" 
-              class="flex-1 px-3.5 py-2 rounded-lg border border-indigo-200 text-xs sm:text-sm font-semibold text-slate-800 focus:outline-none focus:ring-2 focus:ring-indigo-500 bg-white"
+              class="flex-1 px-4 py-2 rounded-xl border border-line-strong text-xs sm:text-sm font-semibold text-ink-primary focus:outline-none focus:border-rausch focus:ring-2 focus:ring-rausch-soft bg-white"
             />
             <button 
               type="button" 
               id="btnSubmitScore"
               onclick="submitMyScoreToRanking()" 
-              class="btn-press px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-lg text-xs font-bold flex-shrink-0"
+              class="btn-press px-4 py-2 bg-rausch hover:bg-rausch-hover text-white rounded-xl text-xs font-bold flex-shrink-0 shadow-sm"
             >
               등록
             </button>
@@ -583,12 +740,11 @@
           </p>
         </div>
 
-        <!-- 액션 버튼 -->
         <div class="flex flex-col gap-2">
-          <button onclick="retryPractice()" class="btn-press w-full py-2.5 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-semibold text-xs sm:text-sm">
-            다시 도전하기 ↺
+          <button onclick="retryPractice()" class="btn-press w-full py-3 bg-ink-primary hover:bg-ink-secondary text-white rounded-xl font-semibold text-xs sm:text-sm transition">
+            다시 필사/도전하기 ↺
           </button>
-          <button onclick="switchView('ranking')" class="btn-press w-full py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl font-semibold text-xs sm:text-sm">
+          <button onclick="switchView('ranking')" class="btn-press w-full py-3 bg-surface-soft hover:bg-surface-hover text-ink-primary rounded-xl font-semibold text-xs sm:text-sm border border-line-hairline transition">
             명예의 전당 순위 보기 🏆
           </button>
         </div>
@@ -598,20 +754,16 @@
 
   </main>
 
-  <!-- 하단 미니멀 푸터 -->
-  <footer class="w-full max-w-4xl text-center text-xs text-slate-400 py-4 mt-4">
-    <p>Typing Master Studio · Korean & English Dual Mode · Cloud Sync</p>
+  <footer class="w-full max-w-4xl text-center text-xs text-ink-quaternary py-5 mt-4">
+    <p>Typing Master Studio · K-Modern Design System · Cloud Realtime Sync</p>
   </footer>
 
-  <!-- Firebase SDK: 인증(Auth) 없이 Realtime Database만 가장 가볍고 확실하게 로드 -->
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-database-compat.js"></script>
 
   <script>
     /* =========================================================================
      * [Firebase Realtime Database 연동 설정]
-     * Firebase 콘솔 -> 프로젝트 설정 -> 웹 앱에서 복사한 설정을 아래에 붙여넣으세요.
-     * (databaseURL 항목이 꼭 포함되어 있어야 합니다!)
      * ======================================================================= */
     const myFirebaseConfig = {
       apiKey: "AIzaSyDD3l3SLqTjeVwUt6cesA7p60dy7911ztE",
@@ -624,7 +776,6 @@
       measurementId: "G-KFT7DCPSBL"
     };
 
-    // 플랫폼 환경 변수가 있으면 우선 사용, 없으면 위 myFirebaseConfig 사용
     const firebaseConfig = typeof __firebase_config !== 'undefined' 
       ? JSON.parse(__firebase_config) 
       : myFirebaseConfig;
@@ -632,7 +783,6 @@
     let rtdb = null;
     window.isCloudConnected = false;
 
-    // Firebase Realtime Database 초기화 (Auth 인증 과정 완전 제거로 에러 원인 100% 차단)
     function initCloudFirebase() {
       const statusNote = document.getElementById('cloudStatusNote');
       try {
@@ -640,12 +790,11 @@
           console.warn('Firebase config 미설정 - 로컬 모드로 동작');
           if (statusNote) {
             statusNote.textContent = '○ Firebase 설정이 비어 있어 로컬 모드로 동작 중입니다. (myFirebaseConfig를 입력하세요)';
-            statusNote.className = 'mt-6 p-3 bg-amber-50 rounded-xl border border-amber-200 text-center text-xs text-amber-700 font-medium';
+            statusNote.className = 'mt-6 p-3.5 bg-amber-50 rounded-2xl border border-amber-200 text-center text-xs text-amber-700 font-medium';
           }
           return;
         }
 
-        // Firebase 앱 초기화
         if (!firebase.apps.length) {
           firebase.initializeApp(firebaseConfig);
         }
@@ -655,10 +804,9 @@
 
         if (statusNote) {
           statusNote.textContent = '● Firebase Realtime Database 실시간 연결 완료! (크롬·엣지·스마트폰 동시 공유)';
-          statusNote.className = 'mt-6 p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-center text-xs text-emerald-700 font-semibold';
+          statusNote.className = 'mt-6 p-3.5 bg-emerald-50 rounded-2xl border border-emerald-200 text-center text-xs text-emerald-700 font-semibold';
         }
 
-        // Realtime Database 실시간 리스너 연결
         subscribeRankingUpdates();
 
       } catch (err) {
@@ -666,19 +814,17 @@
         window.isCloudConnected = false;
         if (statusNote) {
           statusNote.innerHTML = `✕ <strong>클라우드 연동 실패:</strong> ${err.message}`;
-          statusNote.className = 'mt-6 p-3 bg-rose-50 rounded-xl border border-rose-200 text-center text-xs text-rose-700 font-medium';
+          statusNote.className = 'mt-6 p-3.5 bg-rose-50 rounded-2xl border border-rose-200 text-center text-xs text-rose-700 font-medium';
         }
       }
     }
 
-    // Realtime Database 실시간 랭킹 구독
     function subscribeRankingUpdates() {
       if (!rtdb) return;
 
       rtdb.ref('typing_rankings').on('value', (snapshot) => {
         const val = snapshot.val();
         if (val) {
-          // Object 형태를 Array로 변환
           const cloudList = Object.keys(val).map(key => ({
             id: key,
             ...val[key]
@@ -696,27 +842,20 @@
       });
     }
 
-    // 랭킹 저장 함수
     window.saveScoreToCloud = async function(entry) {
       if (window.isCloudConnected && rtdb) {
-        // Realtime Database push를 통한 새 노드 추가
         await rtdb.ref('typing_rankings').push(entry);
         return true;
       }
       return false;
     };
 
-    // DOM 로드 후 초기화
     window.addEventListener('DOMContentLoaded', () => {
       initCloudFirebase();
     });
   </script>
 
-  <!-- 핵심 애플리케이션 로직 -->
   <script>
-    /* =========================================================================
-     * 1. Web Audio API 신디사이저 (타건음, 성공음, 오류음, 팬파레)
-     * ======================================================================= */
     let audioCtx = null;
     let isSoundOn = true;
 
@@ -759,8 +898,8 @@
         const osc = ctx.createOscillator();
         const gain = ctx.createGain();
         osc.type = 'triangle';
-        osc.frequency.setValueAtTime(523.25, ctx.currentTime); // C5
-        osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.07); // G5
+        osc.frequency.setValueAtTime(523.25, ctx.currentTime);
+        osc.frequency.setValueAtTime(783.99, ctx.currentTime + 0.07);
         gain.gain.setValueAtTime(0.15, ctx.currentTime);
         gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.2);
         osc.connect(gain);
@@ -802,11 +941,51 @@
       }
     };
 
-    /* =========================================================================
-     * 2. 다국어 데이터셋 (한국어 & 영어 데이터 분리)
-     * ======================================================================= */
+    const QUOTES_DATABASE = {
+      ko: [
+        { text: '시작이 반이라는 말처럼 우리는 이미 멋진 한 걸음을 내딛었습니다.', author: '아리스토텔레스 (Aristotle)' },
+        { text: '천 리 길도 한 걸음부터 차근차근 나아가는 것입니다.', author: '노자 (Laozi)' },
+        { text: '배움에는 끝이 없고 정직한 땀방울은 결코 배신하지 않습니다.', author: '공자 (Confucius)' },
+        { text: '오늘의 작은 습관이 내일의 커다란 성장을 이룹니다.', author: '제임스 클리어 (James Clear)' },
+        { text: '위대한 일을 해내는 유일한 방법은 당신이 하는 일을 진심으로 사랑하는 것입니다.', author: '스티브 잡스 (Steve Jobs)' },
+        { text: '어둠을 탓하기보다는 차라리 작은 촛불 하나를 켜는 것이 낫습니다.', author: '엘리너 루스벨트 (Eleanor Roosevelt)' },
+        { text: '고난 속에서도 기회는 항상 숨겨져 있습니다.', author: '알베르트 아인슈타인 (Albert Einstein)' },
+        { text: '산을 움직이려 하는 자는 작은 돌멩이를 옮기는 일부터 시작합니다.', author: '공자 (Confucius)' },
+        { text: '행동 없는 비전은 백일몽이고, 비전 없는 행동은 악몽입니다.', author: '일본 속담 (Japanese Proverb)' },
+        { text: '실패는 다시 시작할 수 있는 가장 지혜로운 기회입니다.', author: '헨리 포드 (Henry Ford)' },
+        { text: '단 하나의 용기 있는 결단이 당신의 운명을 바꿉니다.', author: '앙드레 지드 (André Gide)' },
+        { text: '미래를 예측하는 가장 좋은 방법은 스스로 미래를 만들어가는 것입니다.', author: '피터 드러커 (Peter Drucker)' },
+        { text: '꿈을 품고 그것을 향해 나아가는 자는 온 세상이 길을 비켜줍니다.', author: '랄프 왈도 에머슨 (Ralph Waldo Emerson)' },
+        { text: '바람이 불지 않을 때 바람개비를 돌리는 방법은 앞으로 달려가는 것입니다.', author: '데일 카네기 (Dale Carnegie)' },
+        { text: '당신이 할 수 있다고 믿든 할 수 없다고 믿든, 당신의 생각은 언제나 옳습니다.', author: '헨리 포드 (Henry Ford)' },
+        { text: '지식은 나눌수록 커지고, 배움은 나눌수록 빛이 납니다.', author: '소크라테스 (Socrates)' },
+        { text: '한 번도 넘어져 보지 않은 사람보다, 넘어져도 다시 일어선 사람이 더 강합니다.', author: '골드스미스 (Oliver Goldsmith)' },
+        { text: '우리가 두려워해야 할 유일한 것은 두려움 그 자체입니다.', author: '프랭클린 루스벨트 (Franklin D. Roosevelt)' },
+        { text: '가장 어두운 밤도 언젠가는 끝나고 눈부신 태양이 떠오릅니다.', author: '빅토르 위고 (Victor Hugo)' },
+        { text: '성공은 열정을 잃지 않고 실패를 거듭하며 나아가는 능력입니다.', author: '윈스턴 처칠 (Winston Churchill)' }
+      ],
+      en: [
+        { text: 'The only way to do great work is to love what you do.', author: 'Steve Jobs' },
+        { text: 'In the middle of difficulty lies opportunity.', author: 'Albert Einstein' },
+        { text: 'Stay hungry, stay foolish, and never stop learning.', author: 'Steve Jobs' },
+        { text: 'It always seems impossible until it is done.', author: 'Nelson Mandela' },
+        { text: 'The future belongs to those who believe in the beauty of their dreams.', author: 'Eleanor Roosevelt' },
+        { text: 'Success is not final, failure is not fatal: it is the courage to continue that counts.', author: 'Winston Churchill' },
+        { text: 'Happiness is not something ready made. It comes from your own actions.', author: 'Dalai Lama' },
+        { text: 'Do what you can, with what you have, where you are.', author: 'Theodore Roosevelt' },
+        { text: 'Believe you can and you are halfway there.', author: 'Theodore Roosevelt' },
+        { text: 'Action is the foundational key to all success.', author: 'Pablo Picasso' },
+        { text: 'Simplicity is the soul of efficiency in modern design.', author: 'Austin Freeman' },
+        { text: 'Knowledge is power and consistency unlocks true excellence.', author: 'Francis Bacon' },
+        { text: 'Turn your wounds into wisdom and keep moving forward.', author: 'Oprah Winfrey' },
+        { text: 'A journey of a thousand miles begins with a single step.', author: 'Laozi' },
+        { text: 'Your time is limited, so do not waste it living someone else life.', author: 'Steve Jobs' }
+      ]
+    };
+
     const DATASETS = {
       ko: {
+        quotes: QUOTES_DATABASE.ko,
         keys: [
           'ㅁㄴㅇㄹ', 'ㅓㅏㅣ;', 'ㅁㄴㅇㄹ ㅓㅏㅣ;', 'ㅂㅈㄷㄱ', 'ㅛㅕㅑㅐ',
           'ㅋㅌㅊㅍ', 'ㅠㅜㅡ', '자판을 차근차근 익혀요'
@@ -825,6 +1004,7 @@
         ]
       },
       en: {
+        quotes: QUOTES_DATABASE.en,
         keys: [
           'asdf', 'jkl;', 'asdf jkl;', 'qwer', 'uiop',
           'zxcv', 'nm,.', 'type the home row keys'
@@ -843,9 +1023,9 @@
       }
     };
 
-    let currentLang = 'ko'; // 'ko' | 'en'
+    let currentLang = 'ko';
+    let dailyQuoteIndex = 0;
 
-    // 한글 음절 분해 매핑
     const CHOSUNG = ['ㄱ','ㄲ','ㄴ','ㄷ','ㄸ','ㄹ','ㅁ','ㅂ','ㅃ','ㅅ','ㅆ','ㅇ','ㅈ','ㅉ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
     const JUNGSUNG = ['ㅏ','ㅐ','ㅑ','ㅒ','ㅓ','ㅔ','ㅕ','ㅖ','ㅗ','ㅘ','ㅙ','ㅚ','ㅛ','ㅜ','ㅝ','ㅞ','ㅟ','ㅠ','ㅡ','ㅢ','ㅣ'];
     const JONGSUNG = ['','ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ'];
@@ -882,17 +1062,40 @@
       ' ': '양손 엄지'
     };
 
-    // 초기 인메모리 랭킹 데이터
     window.rankingList = [
       { name: 'FastDev', cpm: 462, accuracy: 98, tier: '키보드 마스터 👑', lang: 'en', date: '2026. 10. 05' },
       { name: '빛의손길', cpm: 410, accuracy: 97, tier: '키보드 마스터 👑', lang: 'ko', date: '2026. 10. 05' },
       { name: 'TurboCoder', cpm: 345, accuracy: 95, tier: '타자 날다람쥐 ⚡', lang: 'en', date: '2026. 10. 04' },
-      { name: '새싹타자', cpm: 230, accuracy: 91, tier: '타자 모험가 🧭', lang: 'ko', date: '2026. 10. 03' }
+      { name: '새싹타자', cpm: 230, accuracy: 91, tier: '지혜의 탐험가 🧭', lang: 'ko', date: '2026. 10. 03' }
     ];
 
-    /* =========================================================================
-     * 3. 언어 토글 및 레이아웃 반영
-     * ======================================================================= */
+    function refreshDailyQuote(isManualShuffle = false) {
+      const list = QUOTES_DATABASE[currentLang] || QUOTES_DATABASE.ko;
+      if (isManualShuffle) {
+        dailyQuoteIndex = (dailyQuoteIndex + 1) % list.length;
+      } else {
+        const today = new Date();
+        const dayOfYear = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / (1000 * 60 * 60 * 24));
+        dailyQuoteIndex = dayOfYear % list.length;
+      }
+
+      const q = list[dailyQuoteIndex] || list[0];
+      const textEl = document.getElementById('dailyQuoteText');
+      const authorEl = document.getElementById('dailyQuoteAuthor');
+
+      if (textEl && authorEl) {
+        textEl.textContent = `"${q.text}"`;
+        authorEl.textContent = q.author;
+      }
+    }
+
+    function startSpecificQuotePractice() {
+      const list = QUOTES_DATABASE[currentLang] || QUOTES_DATABASE.ko;
+      const chosenQuote = list[dailyQuoteIndex] || list[0];
+      
+      startPracticeMode('quotes', chosenQuote);
+    }
+
     function setLanguage(lang) {
       currentLang = lang;
       const krBtn = document.getElementById('langKrBtn');
@@ -900,22 +1103,27 @@
       const lobbyIndicator = document.getElementById('lobbyLangIndicator');
 
       if (lang === 'ko') {
-        krBtn.className = 'px-2.5 py-1 rounded-lg transition-all bg-white text-slate-900 shadow-xs';
-        enBtn.className = 'px-2.5 py-1 rounded-lg transition-all text-slate-500 hover:text-slate-900';
+        krBtn.className = 'px-3 py-1 rounded-full transition-all bg-white text-ink-primary shadow-xs font-bold';
+        enBtn.className = 'px-3 py-1 rounded-full transition-all text-ink-tertiary hover:text-ink-primary font-medium';
         lobbyIndicator.textContent = '현재 언어: 한국어 (2벌식)';
+        document.getElementById('qotdBadge').textContent = '오늘의 영감 명언 (Quote of the Day)';
+        document.getElementById('lobbyDescQuotes').textContent = '역사 속 위인과 사상가들의 깊은 명언을 저자와 함께 한 글자씩 정성껏 따라 칩니다.';
         document.getElementById('lobbyDescKeys').textContent = '기본 자리(ㅁㄴㅇㄹ ㅓㅏㅣ;)부터 한 글자씩 올바른 손가락 자리를 체득합니다.';
         document.getElementById('lobbyDescWords').textContent = '자주 쓰이는 우리말 핵심 단어를 연속으로 바르고 빠르게 입력합니다.';
         document.getElementById('lobbyDescSpeed').textContent = '실시간 분당 타수(CPM)를 정밀 측정하고 클라우드 명예의 전당에 등록합니다.';
       } else {
-        enBtn.className = 'px-2.5 py-1 rounded-lg transition-all bg-white text-slate-900 shadow-xs';
-        krBtn.className = 'px-2.5 py-1 rounded-lg transition-all text-slate-500 hover:text-slate-900';
+        enBtn.className = 'px-3 py-1 rounded-full transition-all bg-white text-ink-primary shadow-xs font-bold';
+        krBtn.className = 'px-3 py-1 rounded-full transition-all text-ink-tertiary hover:text-ink-primary font-medium';
         lobbyIndicator.textContent = 'Current Language: English (QWERTY)';
+        document.getElementById('qotdBadge').textContent = 'Quote of the Day';
+        document.getElementById('lobbyDescQuotes').textContent = 'Type inspiring quotes by renowned thinkers and authors with correct rhythm.';
         document.getElementById('lobbyDescKeys').textContent = 'Master the home row keys (ASDF JKL;) and correct finger positions.';
         document.getElementById('lobbyDescWords').textContent = 'Type common tech and programming vocabulary with rhythm and speed.';
         document.getElementById('lobbyDescSpeed').textContent = 'Test your Characters Per Minute (CPM) in 60s and climb the leaderboard.';
       }
 
-      // 키보드 자판 서브라벨 가시성 토글
+      refreshDailyQuote();
+
       const subLabels = document.querySelectorAll('.key-sub');
       subLabels.forEach(el => {
         el.style.display = lang === 'ko' ? 'inline' : 'none';
@@ -924,15 +1132,13 @@
       Sound.keypress();
     }
 
-    /* =========================================================================
-     * 4. 뷰 전환 및 타자 세션 상태 관리
-     * ======================================================================= */
     window.currentView = 'lobby';
-    let currentPracticeMode = 'speed';
+    let currentPracticeMode = 'quotes';
 
     let currentTargetList = [];
     let currentTextIndex = 0;
     let currentTargetText = '';
+    let currentTargetAuthor = '';
 
     let timerInterval = null;
     let timerSecondsLeft = 60;
@@ -956,6 +1162,7 @@
 
       if (viewName === 'lobby') {
         clearPracticeTimer();
+        refreshDailyQuote();
         document.getElementById('viewLobby').classList.remove('hidden');
       } else if (viewName === 'practice') {
         document.getElementById('viewPractice').classList.remove('hidden');
@@ -967,36 +1174,52 @@
       Sound.keypress();
     }
 
-    function startPracticeMode(mode) {
+    function startPracticeMode(mode, priorityQuoteItem = null) {
       currentPracticeMode = mode;
       switchView('practice');
 
       const badge = document.getElementById('practiceModeBadge');
       const langBadge = document.getElementById('practiceLangBadge');
       const timerLabel = document.getElementById('hudTimerLabel');
+      const authorContainer = document.getElementById('authorContainer');
 
       langBadge.textContent = currentLang === 'ko' ? '한국어' : 'English';
 
-      if (mode === 'keys') {
+      if (mode === 'quotes') {
+        badge.textContent = currentLang === 'ko' ? '지혜의 명언 필사' : 'Quote Typing';
+        timerLabel.textContent = '경과 시간';
+        timerSecondsLeft = 0;
+        authorContainer.classList.remove('hidden');
+      } else if (mode === 'keys') {
         badge.textContent = currentLang === 'ko' ? '자리/글자 연습' : 'Keys Practice';
         timerLabel.textContent = '경과 시간';
         timerSecondsLeft = 0;
+        authorContainer.classList.add('hidden');
       } else if (mode === 'words') {
         badge.textContent = currentLang === 'ko' ? '단어 연습' : 'Words Practice';
         timerLabel.textContent = '경과 시간';
         timerSecondsLeft = 0;
+        authorContainer.classList.add('hidden');
       } else {
         badge.textContent = currentLang === 'ko' ? '1분 속타 챌린지' : '60s Speed Challenge';
         timerLabel.textContent = '남은 시간';
         timerSecondsLeft = 60;
+        authorContainer.classList.add('hidden');
       }
 
-      // 현재 언어 데이터셋 로드 및 셔플
       const langDataset = DATASETS[currentLang][mode] || DATASETS['ko'][mode];
-      currentTargetList = [...langDataset].sort(() => Math.random() - 0.5);
-      currentTextIndex = 0;
 
-      // 지표 리셋
+      if (mode === 'quotes') {
+        let quotesPool = [...langDataset].sort(() => Math.random() - 0.5);
+        if (priorityQuoteItem) {
+          quotesPool = [priorityQuoteItem, ...quotesPool.filter(q => q.text !== priorityQuoteItem.text)];
+        }
+        currentTargetList = quotesPool;
+      } else {
+        currentTargetList = [...langDataset].sort(() => Math.random() - 0.5);
+      }
+
+      currentTextIndex = 0;
       totalTypedCount = 0;
       totalErrorCount = 0;
       maxCpmRecord = 0;
@@ -1025,17 +1248,12 @@
       timerInterval = null;
     }
 
-    /* =========================================================================
-     * 5. 타수(CPM) 계산 엔진 (한글 자모 분해 및 영문 타수 산출)
-     * ======================================================================= */
     function countStrokes(str) {
       if (!str) return 0;
       if (currentLang === 'en') {
-        // 영문의 경우 문자 수 기준
         return str.length;
       }
 
-      // 한글 자모 분해 타수 산출
       let strokes = 0;
       for (let i = 0; i < str.length; i++) {
         const code = str.charCodeAt(i);
@@ -1088,16 +1306,23 @@
       calculatedFinalAcc = accuracy;
     }
 
-    /* =========================================================================
-     * 6. 목표 텍스트 렌더링 및 키보드 타깃 하이라이트
-     * ======================================================================= */
     function loadNextText() {
       if (currentTextIndex >= currentTargetList.length) {
         finishPracticeSession();
         return;
       }
 
-      currentTargetText = currentTargetList[currentTextIndex];
+      const currentItem = currentTargetList[currentTextIndex];
+
+      if (currentPracticeMode === 'quotes') {
+        currentTargetText = currentItem.text;
+        currentTargetAuthor = currentItem.author;
+        document.getElementById('targetAuthorText').textContent = currentTargetAuthor;
+      } else {
+        currentTargetText = typeof currentItem === 'string' ? currentItem : currentItem.text;
+        currentTargetAuthor = '';
+      }
+
       document.getElementById('practiceProgress').textContent = `${currentTextIndex + 1} / ${currentTargetList.length}`;
       document.getElementById('typingInput').value = '';
 
@@ -1162,9 +1387,6 @@
       }
     }
 
-    /* =========================================================================
-     * 7. 입력 이벤트 처리 & 타이머 루프
-     * ======================================================================= */
     const typingInput = document.getElementById('typingInput');
 
     typingInput.addEventListener('input', () => {
@@ -1246,8 +1468,8 @@
       document.getElementById('resultFinalCpm').textContent = finalCpm;
       document.getElementById('resultFinalAcc').textContent = finalAcc;
 
-      let tier = '타자 새싹';
-      let icon = '🌱';
+      let tier = '지혜의 탐험가';
+      let icon = '🧭';
       if (finalCpm >= 400) {
         tier = '키보드 마스터';
         icon = '👑';
@@ -1255,13 +1477,13 @@
         tier = '타자 날다람쥐';
         icon = '⚡';
       } else if (finalCpm >= 180) {
-        tier = '타자 모험가';
-        icon = '🧭';
+        tier = '명언 필사 달인';
+        icon = '📖';
       }
 
       document.getElementById('resultTierBadge').textContent = tier;
       document.getElementById('resultBadgeIcon').textContent = icon;
-      document.getElementById('resultTitle').textContent = `${finalCpm} CPM 기록 달성!`;
+      document.getElementById('resultTitle').textContent = `${finalCpm} CPM 달성!`;
 
       const rankBox = document.getElementById('rankingSubmitBox');
       const rankSuccess = document.getElementById('rankSubmitSuccessMsg');
@@ -1269,7 +1491,7 @@
       document.getElementById('btnSubmitScore').disabled = false;
       document.getElementById('btnSubmitScore').textContent = '등록';
 
-      if (currentPracticeMode === 'speed') {
+      if (currentPracticeMode === 'speed' || currentPracticeMode === 'quotes') {
         rankBox.classList.remove('hidden');
         document.getElementById('playerNameInput').value = '';
         document.getElementById('playerNameInput').focus();
@@ -1289,9 +1511,6 @@
       document.getElementById('resultModal').classList.add('hidden');
     }
 
-    /* =========================================================================
-     * 8. 명예의 전당 랭킹 등록 & 실시간 테이블 렌더링
-     * ======================================================================= */
     async function submitMyScoreToRanking() {
       const nameInput = document.getElementById('playerNameInput');
       const name = nameInput.value.trim() || '익명의 타자왕';
@@ -1316,7 +1535,6 @@
       btn.disabled = true;
       btn.textContent = '저장 중...';
 
-      // Firebase Cloud Firestore 저장 시도
       let cloudSaved = false;
       if (typeof window.saveScoreToCloud === 'function') {
         try {
@@ -1331,7 +1549,6 @@
         rankSuccess.textContent = '✓ 클라우드 랭킹에 성공적으로 등록되었습니다!';
         rankSuccess.className = 'text-[11px] text-emerald-600 font-semibold mt-1.5';
       } else {
-        // 로컬 인메모리 목록에도 즉각 반영
         window.rankingList.push(scoreEntry);
         window.rankingList.sort((a, b) => b.cpm - a.cpm);
         rankSuccess.textContent = '⚠️ 클라우드 전송 실패로 현재 기기에만 임시 반영되었습니다.';
@@ -1358,13 +1575,13 @@
       list.sort((a, b) => (b.cpm || 0) - (a.cpm || 0));
 
       if (list.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-slate-400">등록된 랭킹 기록이 없습니다.</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" class="py-6 text-center text-ink-quaternary">등록된 랭킹 기록이 없습니다.</td></tr>`;
         return;
       }
 
       list.forEach((item, idx) => {
         const tr = document.createElement('tr');
-        tr.className = 'hover:bg-slate-50 transition-colors';
+        tr.className = 'hover:bg-surface-soft transition-colors';
 
         let rankBadge = `${idx + 1}`;
         if (idx === 0) rankBadge = '🥇 1';
@@ -1372,23 +1589,23 @@
         else if (idx === 2) rankBadge = '🥉 3';
 
         const langBadge = item.lang === 'en' 
-          ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-slate-100 text-slate-600">EN</span>' 
-          : '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-indigo-50 text-indigo-700">KR</span>';
+          ? '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-surface-soft text-ink-secondary border border-line-hairline">EN</span>' 
+          : '<span class="px-2 py-0.5 rounded-full text-[10px] font-bold bg-rausch-soft text-rausch border border-rose-200">KR</span>';
 
         tr.innerHTML = `
-          <td class="py-3 px-3 text-center font-bold text-slate-900">${rankBadge}</td>
-          <td class="py-3 px-4 font-semibold text-slate-800">${escapeHtml(item.name)}</td>
-          <td class="py-3 px-4 text-center">${langBadge}</td>
-          <td class="py-3 px-4 text-center font-bold text-indigo-600 font-mono text-sm sm:text-base">
-            ${item.cpm} <span class="text-[11px] font-normal text-slate-400">CPM</span>
+          <td class="py-3.5 px-3 text-center font-bold text-ink-primary">${rankBadge}</td>
+          <td class="py-3.5 px-4 font-semibold text-ink-primary">${escapeHtml(item.name)}</td>
+          <td class="py-3.5 px-4 text-center">${langBadge}</td>
+          <td class="py-3.5 px-4 text-center font-bold text-rausch font-mono text-sm sm:text-base">
+            ${item.cpm} <span class="text-[11px] font-normal text-ink-quaternary">CPM</span>
           </td>
-          <td class="py-3 px-4 text-center font-mono text-emerald-600">${item.accuracy}%</td>
-          <td class="py-3 px-4 text-center">
-            <span class="px-2 py-0.5 rounded-full bg-slate-100 text-slate-700 text-xs font-medium border border-slate-200">
+          <td class="py-3.5 px-4 text-center font-mono text-emerald-600 font-bold">${item.accuracy}%</td>
+          <td class="py-3.5 px-4 text-center">
+            <span class="px-2.5 py-0.5 rounded-full bg-surface-soft text-ink-secondary text-xs font-medium border border-line-hairline">
               ${escapeHtml(item.tier)}
             </span>
           </td>
-          <td class="py-3 px-3 text-center text-xs text-slate-400">${item.date || '-'}</td>
+          <td class="py-3.5 px-3 text-center text-xs text-ink-tertiary">${item.date || '-'}</td>
         `;
         tbody.appendChild(tr);
       });
@@ -1406,9 +1623,6 @@
         .replace(/'/g, '&#039;');
     }
 
-    /* =========================================================================
-     * 9. 승리 축하 캔버스 파티클
-     * ======================================================================= */
     const confCanvas = document.getElementById('confettiCanvas');
     const confCtx = confCanvas.getContext('2d');
     let confettiList = [];
@@ -1423,7 +1637,7 @@
 
     function triggerConfetti() {
       confettiList = [];
-      const colors = ['#6366f1', '#4f46e5', '#38bdf8', '#10b981', '#f59e0b'];
+      const colors = ['#FF385C', '#E01542', '#4A4036', '#04B066', '#FFB800'];
       for (let i = 0; i < 70; i++) {
         confettiList.push({
           x: confCanvas.width / 2,
@@ -1472,10 +1686,10 @@
       }
     }
 
-    // 초기화: 노토산스 적용 및 한국어 기본 셋업
     window.addEventListener('load', () => {
       setLanguage('ko');
       switchView('lobby');
+      refreshDailyQuote();
     });
   </script>
 </body>
