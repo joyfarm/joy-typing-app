@@ -605,7 +605,7 @@
 
   <!-- Firebase SDK 모듈 스크립트 -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
     import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
     import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
 
@@ -615,12 +615,14 @@
      * ======================================================================= */
     const myFirebaseConfig = {
       // 여기에 3단계에서 복사한 본인 프로젝트의 키 값을 넣어주세요.
-      apiKey: "YOUR_API_KEY",
-      authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
-      projectId: "YOUR_PROJECT_ID",
-      storageBucket: "YOUR_PROJECT_ID.appspot.com",
-      messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-      appId: "YOUR_APP_ID"
+      apiKey: "AIzaSyDmnDtDmWwALjRzeSeM43O-A0iia0TRS6o",
+      authDomain: "typing-master-project.firebaseapp.com",
+      projectId: "typing-master-project",
+      storageBucket: "typing-master-project.firebasestorage.app",
+      messagingSenderId: "1090329562510",
+      appId: "1:1090329562510:web:b5d7e2d5555be18f54a8df"
+  };
+
     };
 
     // 플랫폼 환경 변수가 있으면 우선 사용하고, 없으면 위 myFirebaseConfig를 사용합니다.
@@ -710,26 +712,6 @@
 
     initCloudFirebase();
   </script>
-
-<script type="module">
-  // Import the functions you need from the SDKs you need
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-  // TODO: Add SDKs for Firebase products that you want to use
-  // https://firebase.google.com/docs/web/setup#available-libraries
-
-  // Your web app's Firebase configuration
-  const firebaseConfig = {
-    apiKey: "AIzaSyDmnDtDmWwALjRzeSeM43O-A0iia0TRS6o",
-    authDomain: "typing-master-project.firebaseapp.com",
-    projectId: "typing-master-project",
-    storageBucket: "typing-master-project.firebasestorage.app",
-    messagingSenderId: "1090329562510",
-    appId: "1:1090329562510:web:b5d7e2d5555be18f54a8df"
-  };
-
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
-</script>
 
   <!-- 핵심 애플리케이션 로직 -->
   <script>
