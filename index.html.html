@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>조이쌤의 1분 타자 챌린지</title>
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Jua&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        body {
+            font-family: 'Jua', sans-serif;
+            background-color: #fdfbf7;
+            background-image: radial-gradient(#ffd166 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        .btn-game {
+            transition: all 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        }
+        .btn-game:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        }
+        .btn-game:active {
+            transform: translateY(1px);
+        }
+        .typing-correct { color: #10B981; }
+        .typing-wrong { color: #EF4444; background-color: #FEE2E2; }
+    </style>
+</head>
+<body class="min-h-screen flex items-center justify-center p-4">
+
+    <!-- Main Container -->
+    <div class="max-w-3xl w-full bg-white rounded-3xl shadow-xl overflow-hidden border-4 border-yellow-300">
+        
+        <!-- Header -->
+        <div class="bg-yellow-300 text-yellow-900 py-4 px-6 text-center">
+            <h1 class="text-3xl font-bold tracking-wider"><i class="fa-solid fa-keyboard mr-2"></i> 조이쌤의 1분 타자 챌린지</h1>
+        </div>
+
+        <div id="app-content" class="p-8">
+            
+            <!-- 1. Setup Screen -->
+            <div id="screen-setup" class="space-y-6 text-center block">
+                <h2 class="text-2xl text-gray-700 mb-4">도전을 준비하세요!</h2>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                    <div class="bg-blue-50 p-4 rounded-2xl border-2 border-blue-200">
+                        <label class="block text-lg text-blue-800 mb-2">언어 선택</label>
+                        <select id="select-lang" class="w-full p-3 rounded-xl border border-blue-300 text-lg focus:outline-none focus:ring-4 focus:ring-blue-200">
+                            <option value="ko">한국어 (Korean)</option>
+                            <option value="en">영어 (English)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="bg-green-50 p-4 rounded-2xl border-2 border-green-200">
+                        <label class="block text-lg text-green-800 mb-2">단계 선택</label>
+                        <select id="select-level" class="w-full p-3 rounded-xl border border-green-300 text-lg focus:outline-none focus:ring-4 focus:ring-green-200">
+                            <option value="1">1단계: 기본 낱말</option>
+                            <option value="2">2단계: 짧은 문장</option>
+                            <option value="3">3단계: 중간 문장</option>
+                            <option value="4">4단계: 긴 문장</option>
+                            <option value="5">5단계: 코딩 용어 마스터 (파이썬, 엔트리 등)</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mt-6 bg-purple-50 p-4 rounded-2xl border-2 border-purple-200 w-full max-w-sm mx-auto text-left">
+                    <label class="block text-lg text-purple-800 mb-2">도전자 이름</label>
+                    <input type="text" id="input-username" placeholder="이름이나 닉네임을 적어주세요" class="w-full p-3 rounded-xl border border-purple-300 text-lg text-center focus:outline-none focus:ring-4 focus:ring-purple-200">
+                </div>
+
+                <button id="btn-start" class="btn-game mt-8 bg-pink-500 hover:bg-pink-600 text-white text-2xl font-bold py-4 px-12 rounded-full w-full max-w-md mx-auto block">
+                    도전 시작! <i class="fa-solid fa-play ml-2"></i>
+                </button>
+            </div>
+
+            <!-- 2. Game Screen -->
+            <div id="screen-game" class="hidden flex-col items-center">
+                <div class="w-full flex justify-between items-center bg-gray-100 p-4 rounded-2xl mb-6">
+                    <div class="text-xl text-gray-700">남은 시간: <span id="display-time" class="text-3xl text-red-500 font-bold ml-2">60</span>초</div>
+                    <div class="flex gap-4">
+                        <div class="text-lg bg-white px-4 py-2 rounded-xl shadow-sm">타수: <span id="display-cpm" class="text-blue-500 font-bold">0</span> 타/분</div>
+                        <div class="text-lg bg-white px-4 py-2 rounded-xl shadow-sm">정확도: <span id="display-acc" class="text-green-500 font-bold">100</span> %</div>
+                    </div>
+                </div>
+
+                <div class="w-full bg-blue-50 border-4 border-blue-200 rounded-2xl p-8 mb-6 text-center h-40 flex items-center justify-center">
+                    <p id="target-text" class="text-3xl text-gray-800 tracking-wide select-none">여기에 문장이 나옵니다</p>
+                </div>
+
+                <input type="text" id="typing-input" class="w-full p-4 text-center text-2xl border-4 border-yellow-300 rounded-2xl focus:outline-none focus:border-yellow-500 shadow-inner" placeholder="위 문장을 똑같이 따라 치세요!" autocomplete="off">
+            </div>
+
+            <!-- 3. Result Screen -->
+            <div id="screen-result" class="hidden flex-col items-center text-center space-y-6">
+                <h2 class="text-4xl text-pink-500 font-bold mb-2">도전 종료!</h2>
+                <p class="text-xl text-gray-600 mb-6">수고하셨습니다, <span id="result-username" class="text-purple-600 font-bold"></span> 님!</p>
+                
+                <div class="grid grid-cols-2 gap-4 w-full max-w-md">
+                    <div class="bg-blue-100 p-6 rounded-2xl border-2 border-blue-200">
+                        <p class="text-gray-500 mb-2">최종 타수</p>
+                        <p class="text-4xl text-blue-600 font-bold"><span id="result-cpm"></span> <span class="text-lg">타/분</span></p>
+                    </div>
+                    <div class="bg-green-100 p-6 rounded-2xl border-2 border-green-200">
+                        <p class="text-gray-500 mb-2">정확도</p>
+                        <p class="text-4xl text-green-600 font-bold"><span id="result-acc"></span> <span class="text-lg">%</span></p>
+                    </div>
+                </div>
+
+                <div id="save-status" class="text-lg mt-4 h-8 text-gray-600"></div>
+
+                <div class="flex gap-4 mt-8 w-full justify-center">
+                    <button id="btn-save" class="btn-game bg-purple-500 hover:bg-purple-600 text-white text-xl py-3 px-8 rounded-full">
+                        <i class="fa-solid fa-cloud-arrow-up mr-2"></i> 기록 저장하기
+                    </button>
+                    <button id="btn-restart" class="btn-game bg-yellow-400 hover:bg-yellow-500 text-yellow-900 text-xl py-3 px-8 rounded-full">
+                        <i class="fa-solid fa-rotate-right mr-2"></i> 다시 하기
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // 단어 데이터베이스 (한국어/영어, 레벨 1~5)
+        const wordData = {
+            ko: {
+                1: ["사과", "바나나", "포도", "학교", "친구", "가족", "우유", "책상", "연필", "컴퓨터", "마우스", "키보드", "하늘", "바다"],
+                2: ["나는 학생입니다", "날씨가 참 좋아요", "꽃이 피었습니다", "밥을 맛있게 먹어요", "친구와 함께 놀아요", "학교에 가는 길"],
+                3: ["오늘은 정말 기분이 좋은 하루입니다", "가족들과 함께 맛있는 저녁을 먹었어요", "도서관에서 재미있는 책을 빌렸습니다", "자전거를 타고 공원을 씽씽 달립니다"],
+                4: ["타자를 빠르고 정확하게 치는 연습을 하고 있습니다", "열심히 연습하면 누구나 타자왕이 될 수 있어요", "키보드 자판을 보지 않고 화면만 보며 집중해 보세요"],
+                5: ["파이썬으로 인공지능 프로그램을 만듭니다", "아두이노 보드에 LED 램프를 연결하여 불을 켭니다", "엔트리 블록을 조립해 나만의 게임을 만들어요", "변수와 조건문을 활용하면 복잡한 연산도 가능합니다", "반복문을 사용하여 똑같은 명령을 쉽게 처리하세요", "print('Hello World!')", "이벤트 블록이 실행될 때"]
+            },
+            en: {
+                1: ["apple", "banana", "cat", "dog", "school", "friend", "book", "desk", "milk", "water", "tree", "sun"],
+                2: ["I am a student", "She is happy", "The sky is blue", "I love my family", "Have a good day", "Let's play together"],
+                3: ["The quick brown fox jumps over the lazy dog", "A journey of a thousand miles begins with a single step", "Practice makes perfect in everything you do"],
+                4: ["Learning to type quickly is a very useful skill for the future", "Focus on accuracy first before trying to increase your typing speed"],
+                5: ["Python is a great programming language", "Arduino helps you control hardware components", "Use variables to store data in memory", "If statements are used for conditional logic", "console.log('Hello World');", "for (let i = 0; i < 10; i++)", "function startCoding() { }"]
+            }
+        };
+
+        let gameState = {
+            isPlaying: false,
+            timeTotal: 60,
+            timeLeft: 60,
+            timerId: null,
+            totalTypedChars: 0,
+            correctTypedChars: 0,
+            currentWord: "",
+            username: "",
+            lang: "ko",
+            level: 1
+        };
+
+        // DOM Elements
+        const screens = {
+            setup: document.getElementById('screen-setup'),
+            game: document.getElementById('screen-game'),
+            result: document.getElementById('screen-result')
+        };
+        const els = {
+            lang: document.getElementById('select-lang'),
+            level: document.getElementById('select-level'),
+            username: document.getElementById('input-username'),
+            btnStart: document.getElementById('btn-start'),
+            btnSave: document.getElementById('btn-save'),
+            btnRestart: document.getElementById('btn-restart'),
+            
+            time: document.getElementById('display-time'),
+            cpm: document.getElementById('display-cpm'),
+            acc: document.getElementById('display-acc'),
+            targetText: document.getElementById('target-text'),
+            typingInput: document.getElementById('typing-input'),
+            
+            resUsername: document.getElementById('result-username'),
+            resCpm: document.getElementById('result-cpm'),
+            resAcc: document.getElementById('result-acc'),
+            saveStatus: document.getElementById('save-status')
+        };
+
+        let db;
+        let auth;
+        let isFirebaseReady = false;
+
+        async function initFirebase() {
+            try {
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'typing-game-default';
+                const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+                
+                if(!firebaseConfig) {
+                    console.log("Firebase config not found (running locally?). DB save skipped.");
+                    return;
+                }
+
+                const app = initializeApp(firebaseConfig);
+                db = getFirestore(app);
+                auth = getAuth(app);
+                
+                await signInAnonymously(auth);
+                isFirebaseReady = true;
+                console.log("Firebase Initialized!");
+            } catch (e) {
+                console.error("Firebase init error:", e);
+            }
+        }
+        initFirebase();
+
+        function switchScreen(screenName) {
+            Object.values(screens).forEach(s => {
+                s.classList.remove('block', 'flex');
+                s.classList.add('hidden');
+            });
+            if(screenName === 'game' || screenName === 'result') {
+                screens[screenName].classList.remove('hidden');
+                screens[screenName].classList.add('flex');
+            } else {
+                screens[screenName].classList.remove('hidden');
+                screens[screenName].classList.add('block');
+            }
+        }
+
+        function getNextWord() {
+            const list = wordData[gameState.lang][gameState.level];
+            const randomIndex = Math.floor(Math.random() * list.length);
+            gameState.currentWord = list[randomIndex];
+            renderTargetText("");
+        }
+
+        function renderTargetText(inputText) {
+            let html = "";
+            for (let i = 0; i < gameState.currentWord.length; i++) {
+                const targetChar = gameState.currentWord[i];
+                const inputChar = inputText[i];
+                
+                if (inputChar === undefined) {
+                    // 안 친 글자
+                    html += `<span>${targetChar}</span>`;
+                } else if (inputChar === targetChar) {
+                    // 맞은 글자
+                    html += `<span class="typing-correct">${targetChar}</span>`;
+                } else {
+                    // 틀린 글자
+                    html += `<span class="typing-wrong">${targetChar}</span>`;
+                }
+            }
+            els.targetText.innerHTML = html;
+        }
+
+        function updateStats(inputText) {
+            // CPM 계산 (분당 타수)
+            const minutesElapsed = (gameState.timeTotal - gameState.timeLeft) / 60;
+            let currentCpm = 0;
+            if (minutesElapsed > 0) {
+                currentCpm = Math.round(gameState.correctTypedChars / minutesElapsed);
+            }
+            
+            // 정확도 계산
+            let accuracy = 100;
+            if (gameState.totalTypedChars > 0) {
+                accuracy = Math.round((gameState.correctTypedChars / gameState.totalTypedChars) * 100);
+            }
+
+            els.cpm.textContent = currentCpm;
+            els.acc.textContent = accuracy;
+        }
+
+        function startGame() {
+            gameState.username = els.username.value.trim() || "익명도전자";
+            gameState.lang = els.lang.value;
+            gameState.level = parseInt(els.level.value);
+            
+            gameState.isPlaying = true;
+            gameState.timeLeft = gameState.timeTotal;
+            gameState.totalTypedChars = 0;
+            gameState.correctTypedChars = 0;
+            
+            els.time.textContent = gameState.timeLeft;
+            els.cpm.textContent = "0";
+            els.acc.textContent = "100";
+            els.typingInput.value = "";
+            els.saveStatus.textContent = "";
+            els.btnSave.disabled = false;
+            els.btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+
+            getNextWord();
+            switchScreen('game');
+            els.typingInput.focus();
+
+            gameState.timerId = setInterval(() => {
+                gameState.timeLeft--;
+                els.time.textContent = gameState.timeLeft;
+                updateStats(els.typingInput.value);
+
+                if (gameState.timeLeft <= 0) {
+                    endGame();
+                }
+            }, 1000);
+        }
+
+        function endGame() {
+            clearInterval(gameState.timerId);
+            gameState.isPlaying = false;
+            
+            els.resUsername.textContent = gameState.username;
+            els.resCpm.textContent = els.cpm.textContent;
+            els.resAcc.textContent = els.acc.textContent;
+            
+            switchScreen('result');
+        }
+
+        els.btnStart.addEventListener('click', () => {
+            if (!els.username.value.trim()) {
+                // 간단한 커스텀 UI 알림 (alert 대신)
+                els.username.classList.add('border-red-500', 'ring-red-200');
+                els.username.placeholder = "이름을 꼭 입력해주세요!";
+                setTimeout(() => els.username.classList.remove('border-red-500', 'ring-red-200'), 1500);
+                return;
+            }
+            startGame();
+        });
+
+        els.btnRestart.addEventListener('click', () => {
+            els.username.value = ""; // 초기화
+            els.username.placeholder = "이름이나 닉네임을 적어주세요";
+            switchScreen('setup');
+        });
+
+        // 타자 입력 감지 로직
+        els.typingInput.addEventListener('input', (e) => {
+            if (!gameState.isPlaying) return;
+
+            const inputVal = e.target.value;
+            
+            // Stats 업데이트를 위한 글자수 카운트 로직 (입력이 발생할 때마다 1타 추가)
+            if (e.inputType !== 'deleteContentBackward') {
+                gameState.totalTypedChars++;
+                // 방금 입력한 마지막 글자가 맞는지 확인
+                const lastCharIndex = inputVal.length - 1;
+                if (lastCharIndex < gameState.currentWord.length && 
+                    inputVal[lastCharIndex] === gameState.currentWord[lastCharIndex]) {
+                    gameState.correctTypedChars++;
+                }
+            }
+
+            renderTargetText(inputVal);
+            updateStats(inputVal);
+
+            // 단어를 끝까지 완벽하게 쳤는지 확인
+            if (inputVal === gameState.currentWord) {
+                e.target.value = ""; // 입력창 비우기
+                getNextWord(); // 다음 단어 가져오기
+            }
+        });
+
+        // 데이터 저장 로직 (Firebase)
+        els.btnSave.addEventListener('click', async () => {
+            if (!isFirebaseReady || !auth.currentUser) {
+                els.saveStatus.innerHTML = "<span class='text-red-500'>데이터베이스 연결을 기다리는 중이거나 설정되지 않았습니다.</span>";
+                return;
+            }
+
+            try {
+                els.btnSave.disabled = true;
+                els.btnSave.classList.add('opacity-50', 'cursor-not-allowed');
+                els.saveStatus.innerHTML = "<i class='fa-solid fa-spinner fa-spin'></i> 저장 중...";
+
+                const appId = typeof __app_id !== 'undefined' ? __app_id : 'typing-game-default';
+                const collectionRef = collection(db, 'artifacts', appId, 'public', 'data', 'typing_scores');
+                
+                await addDoc(collectionRef, {
+                    username: gameState.username,
+                    language: gameState.lang,
+                    level: gameState.level,
+                    cpm: parseInt(els.resCpm.textContent),
+                    accuracy: parseInt(els.resAcc.textContent),
+                    timestamp: serverTimestamp(),
+                    userId: auth.currentUser.uid
+                });
+
+                els.saveStatus.innerHTML = "<span class='text-green-600 font-bold'><i class='fa-solid fa-check'></i> 랭킹에 성공적으로 기록되었습니다!</span>";
+            } catch (error) {
+                console.error("저장 오류:", error);
+                els.saveStatus.innerHTML = `<span class='text-red-500'>저장 실패: ${error.message}</span>`;
+                els.btnSave.disabled = false;
+                els.btnSave.classList.remove('opacity-50', 'cursor-not-allowed');
+            }
+        });
+
+        // 한글 입력기(IME) 조합 과정 중 엔터 방지 등 편의 기능
+        els.typingInput.addEventListener('keydown', (e) => {
+            if(e.key === 'Enter') {
+                e.preventDefault();
+            }
+        });
+    </script>
+</body>
+</html>
