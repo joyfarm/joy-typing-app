@@ -398,8 +398,13 @@
 
         // 한글 입력기(IME) 조합 과정 중 엔터 방지 등 편의 기능
         els.typingInput.addEventListener('keydown', (e) => {
+            if (e.isComposing || e.keyCode === 229) {
+                return; 
+            }
             if(e.key === 'Enter') {
                 e.preventDefault();
+                els.typingInput.value = ''; // 입력창 싹 비우기
+                els.typingInput.focus();    // 커서 깜빡이게 유지하기
             }
         });
     </script>
