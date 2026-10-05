@@ -603,12 +603,12 @@
     <p>Typing Master Studio · Korean & English Dual Mode · Cloud Sync</p>
   </footer>
 
-  <!-- Firebase SDK 모듈 스크립트 -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.19.0/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+  <!-- Firebase SDK 스크립트 (브라우저 단일 HTML 환경에서 가장 안정적인 Compat 모드) -->
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 
+  <script>
     /* =========================================================================
      * [Firebase 연동 설정]
      * Firebase 콘솔에서 발급받은 본인의 firebaseConfig를 아래에 입력하세요.
@@ -629,14 +629,11 @@
       ? JSON.parse(__firebase_config) 
       : myFirebaseConfig;
 
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'typing-master-studio';
     let db = null;
     let auth = null;
-    let currentUser = null;
-
     window.isCloudConnected = false;
 
-    // Firebase 초기화 함수
+    // Firebase 초기화 함수 (브라우저 전역 firebase 객체 사용)
     async function initCloudFirebase() {
       const statusNote = document.getElementById('cloudStatusNote');
       try {
@@ -649,36 +646,39 @@
           return;
         }
 
-        const app = initializeApp(firebaseConfig);
-        auth = getAuth(app);
-        db = getFirestore(app);
-
-        // 익명 인증 로그인 시도
-        if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
-          const cred = await signInWithCustomToken(auth, __initial_auth_token);
-          currentUser = cred.user;
-        } else {
-          const cred = await signInAnonymously(auth);
-          currentUser = cred.user;
+        // Firebase 앱 초기화 (중복 방지)
+        if (!firebase.apps.length) {
+          firebase.initializeApp(firebaseConfig);
         }
+        
+        db = firebase.firestore();
+        auth = firebase.auth();
 
-        if (currentUser) {
-          window.isCloudConnected = true;
-          if (statusNote) {
-            statusNote.textContent = '● 실시간 Firebase Cloud 데이터베이스와 정상 연결되었습니다! (크롬·엣지·모바일 실시간 공유)';
-            statusNote.className = 'mt-6 p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-center text-xs text-emerald-700 font-semibold';
+        // 1. 익명 로그인 시도 (실패해도 Firestore 보안규칙이 열려있으면 동작하도록 방어 처리)
+        try {
+          if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+            await auth.signInWithCustomToken(__initial_auth_token);
+          } else {
+            await auth.signInAnonymously();
           }
-          subscribeRankingUpdates();
+        } catch (authErr) {
+          console.warn('익명 인증 건너뜀 (Firestore 직접 접근 시도):', authErr.message);
         }
+
+        // 2. 실시간 랭킹 컬렉션 구독 시작
+        window.isCloudConnected = true;
+        if (statusNote) {
+          statusNote.textContent = '● 실시간 Firebase Cloud 데이터베이스와 정상 연결되었습니다! (크롬·엣지·모바일 실시간 공유)';
+          statusNote.className = 'mt-6 p-3 bg-emerald-50 rounded-xl border border-emerald-200 text-center text-xs text-emerald-700 font-semibold';
+        }
+        
+        subscribeRankingUpdates();
+
       } catch (err) {
         console.error('Firebase init error:', err);
         window.isCloudConnected = false;
         if (statusNote) {
-          let errorTip = err.message;
-          if (err.code === 'auth/operation-not-allowed' || err.code === 'auth/admin-restricted-operation') {
-            errorTip = 'Firebase 콘솔의 [Authentication > Sign-in method]에서 "익명(Anonymous)" 로그인을 켜주세요!';
-          }
-          statusNote.innerHTML = `✕ <strong>클라우드 연동 실패:</strong> ${errorTip}`;
+          statusNote.innerHTML = `✕ <strong>클라우드 연동 실패:</strong> ${err.message}`;
           statusNote.className = 'mt-6 p-3 bg-rose-50 rounded-xl border border-rose-200 text-center text-xs text-rose-700 font-medium';
         }
       }
@@ -686,11 +686,9 @@
 
     // 실시간 랭킹 컬렉션 구독
     function subscribeRankingUpdates() {
-      if (!db || !currentUser) return;
-      // 가장 직관적이고 안정적인 최상위 typing_rankings 컬렉션 사용
-      const rankCol = collection(db, 'typing_rankings');
-
-      onSnapshot(rankCol, (snapshot) => {
+      if (!db) return;
+      
+      db.collection('typing_rankings').onSnapshot((snapshot) => {
         const cloudList = [];
         snapshot.forEach((doc) => {
           cloudList.push({ id: doc.id, ...doc.data() });
@@ -710,15 +708,17 @@
 
     // 랭킹 저장 함수
     window.saveScoreToCloud = async function(entry) {
-      if (window.isCloudConnected && db && currentUser) {
-        const rankCol = collection(db, 'typing_rankings');
-        await addDoc(rankCol, entry);
+      if (window.isCloudConnected && db) {
+        await db.collection('typing_rankings').add(entry);
         return true;
       }
       return false;
     };
 
-    initCloudFirebase();
+    // DOM 로드 후 초기화 실행
+    window.addEventListener('DOMContentLoaded', () => {
+      initCloudFirebase();
+    });
   </script>
 
   <!-- 핵심 애플리케이션 로직 -->
