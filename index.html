@@ -403,11 +403,9 @@
             }
             if(e.key === 'Enter') {
                 e.preventDefault();
-                setTimeout(() => {
-                    els.typingInput.value = '';
-                }, 10);
-els.typingInput.focus();
-
+                els.typingInput.blur();  // 1. 강제로 초점을 없애서 한글 조합을 완전히 끊어버림
+                els.typingInput.value = ''; // 2. 입력창을 완벽하게 비움
+                els.typingInput.focus(); // 3. 다시 타자를 칠 수 있게 초점을 줌
             }
         });
     </script>
