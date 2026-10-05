@@ -397,15 +397,16 @@
         });
 
         // 한글 입력기(IME) 조합 과정 중 엔터 방지 등 편의 기능
-        els.typingInput.addEventListener('keydown', (e) => {
-            if (e.isComposing || e.keyCode === 229) {
-                return; 
-            }
+        els.typingInput.addEventListener('keyup', (e) => {
             if(e.key === 'Enter') {
                 e.preventDefault();
-                els.typingInput.blur();  // 1. 강제로 초점을 없애서 한글 조합을 완전히 끊어버림
-                els.typingInput.value = ''; // 2. 입력창을 완벽하게 비움
-                els.typingInput.focus(); // 3. 다시 타자를 칠 수 있게 초점을 줌
+                if (els.typingInput.value === 현재제시어) {
+                    // 점수 올리기
+                    // 다음 단어로 넘어가기
+                }     
+                // 2. 입력창 비우기
+                els.typingInput.value = '';       
+                // --- 여기까지 엔터키 안쪽 ---
             }
         });
     </script>
