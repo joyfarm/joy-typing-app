@@ -403,8 +403,11 @@
             }
             if(e.key === 'Enter') {
                 e.preventDefault();
-                els.typingInput.value = ''; // 입력창 싹 비우기
-                els.typingInput.focus();    // 커서 깜빡이게 유지하기
+                setTimeout(() => {
+                    els.typingInput.value = '';
+                }, 10);
+els.typingInput.focus();
+
             }
         });
     </script>
